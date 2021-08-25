@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+}
+
+group 'io.spring.asciidoctor'
+version '5.2.4.RELEASE'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    compile(project(":spring-beans"))
+    compile(project(":spring-context"))
+    compile(project(":spring-core"))
+    compile(project(":spring-expression"))
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+
+test {
+    useJUnitPlatform()
+}
+
+tasks.withType(JavaCompile){
+    options.encoding="UTF-8"
+}
