@@ -50,6 +50,10 @@ public class Person implements ApplicationContextAware, EnvironmentAware, BeanNa
 		System.out.println("Person 初始化构造!!!");
 	}
 
+	public Person(int id, String name) {
+		this.id = id;
+		this.name = name;
+	}
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

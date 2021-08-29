@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:msb="http://www.mashibing.com/schema/user"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	   http://www.mashibing.com/schema/user http://www.mashibing.com/schema/user.xsd">
+
+	<msb:user id="msb" username="lian" email="zhaosong@trs.com" password="123"></msb:user>
+	<!--
+	component-scan中有个annotation-config属性，且该属性的默认值为true，
+	等同于<context:annotation-config />配置，默认就是true，
+	也就是说，如果配置了context:component-scan其实就没有必要配置annotation-config 了。
+	-->
+	<!--	<context:component-scan base-package="com.springframework.analysis" annotation-config="true"/>-->
+	<context:property-placeholder location="classpath:db.properties"/>
+
+	<!-- name属性：用于指定bean的别名，小名 -->
+	<!--
+	name与id的区别：
+	1. name别名可以配置多个，而id值只能有一个
+	2. XML中id属性的值，命名要求：必须以字母开头，只能包括字母 数字 下划线 连字符，不能包括特殊字符，
+	name属性则无命名要求，name属性会应用在特殊命名的场景下，如"/person"，如struts1框架
+	其实xml发展到了今天，id属性的限制也就不存在了
+	3. containsBeanDefinition(beanName)只能判断id，不能判断name；而containsBean(beanName)id与name都可以进行判断
+	-->
+	<bean id="person2" class="com.springframework.analysis.pojo.Person">
+		<constructor-arg index="0" value="1" type="int"/>
+		<constructor-arg index="1" value="zhangshan" type="java.lang.String"/>
+	</bean>
+
+	<bean id="person" class="com.springframework.analysis.pojo.Person">
+		<!--		<lookup-method></lookup-method>-->
+		<!--		<replaced-method></replaced-method>-->
+		<property name="id" value="1"/>
+		<property name="name" value="zhangsan"/>
+	</bean>
+
+
+	<!--	<bean id="personFactoryBean" class="com.springframework.analysis.pojo.PersonFactoryBean"/>-->
+
+</beans>

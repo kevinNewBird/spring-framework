@@ -176,7 +176,10 @@ public class PluggableSchemaResolver implements EntityResolver {
 
 	@Override
 	public String toString() {
+		// debug模式下会加载, 看到的打印信息其实就是debug时调用了toString
+		// 正常运行情况下是不会加载的
 		return "EntityResolver using schema mappings " + getSchemaMappings();
+//		return "就不加载";
 	}
 
 }
