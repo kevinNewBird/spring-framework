@@ -12,7 +12,7 @@
 	<context:component-scan base-package="com.springframework.analysis" annotation-config="true"/>
 
 	<!--自定义bean属性信息增强器-->
-	<bean class="com.springframework.analysis.MyBeanFactoryPostProcessor"/>
+	<bean class="com.mashibing.analysis.MyBeanFactoryPostProcessor"/>
 
 	<!-- name属性：用于指定bean的别名，小名 -->
 	<!--
@@ -23,7 +23,7 @@
 	其实xml发展到了今天，id属性的限制也就不存在了
 	3. containsBeanDefinition(beanName)只能判断id，不能判断name；而containsBean(beanName)id与name都可以进行判断
 	-->
-	<bean id="person" class="com.springframework.analysis.pojo.Person" init-method="init">
+	<bean id="person" class="com.mashibing.analysis.pojo.Person" init-method="init">
 	</bean>
 
 

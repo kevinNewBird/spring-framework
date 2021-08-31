@@ -1,4 +1,4 @@
-package com.springframework.analysis.selftag;
+package com.mashibing.analysis.selftag;
 
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser;

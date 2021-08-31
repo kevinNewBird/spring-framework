@@ -1,4 +1,4 @@
-package com.springframework.analysis;
+package com.mashibing.analysis;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanDefinition;

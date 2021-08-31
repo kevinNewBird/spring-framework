@@ -1,4 +1,4 @@
-package com.springframework.analysis.selftag;
+package com.mashibing.analysis.selftag;
 
 /**
  * description  User <BR>

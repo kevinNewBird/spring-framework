@@ -1,4 +1,4 @@
-package com.springframework.analysis.pojo;
+package com.mashibing.analysis.pojo;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanInitializationException;

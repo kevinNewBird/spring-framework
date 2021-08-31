@@ -1,7 +1,6 @@
-package com.springframework.analysis;
+package com.mashibing.analysis;
 
-import com.springframework.analysis.pojo.Person;
-import com.springframework.analysis.pojo.PersonFactoryBean;
+import com.mashibing.analysis.pojo.Person;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**

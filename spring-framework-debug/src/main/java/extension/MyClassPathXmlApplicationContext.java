@@ -1,5 +1,7 @@
 package extension;
 
+import com.mashibing.analysis.selfaware.MyAwareProcessor;
+import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -30,5 +32,7 @@ public class MyClassPathXmlApplicationContext extends ClassPathXmlApplicationCon
 		super.setAllowBeanDefinitionOverriding(false);
 		super.setAllowCircularReferences(false);
 		super.customizeBeanFactory(beanFactory);
+		// 自定义自己的Aware处理器(继承BeanPostProcessor)
+		beanFactory.addBeanPostProcessor(new MyAwareProcessor());
 	}
 }
