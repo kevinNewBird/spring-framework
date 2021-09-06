@@ -1,7 +1,9 @@
 package extension;
 
+import com.mashibing.analysis.MyBeanFactoryPostProcessor;
 import com.mashibing.analysis.selfaware.MyAwareProcessor;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -32,7 +34,16 @@ public class MyClassPathXmlApplicationContext extends ClassPathXmlApplicationCon
 		super.setAllowBeanDefinitionOverriding(false);
 		super.setAllowCircularReferences(false);
 		super.customizeBeanFactory(beanFactory);
+		// 添加自定义的BeanFactoryPostProcessor,或者通过xml的方式
+//		super.addBeanFactoryPostProcessor(new MyBeanFactoryPostProcessor());
 		// 自定义自己的Aware处理器(继承BeanPostProcessor)
 		beanFactory.addBeanPostProcessor(new MyAwareProcessor());
+	}
+
+
+	@Override
+	protected void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
+		super.postProcessBeanFactory(beanFactory);
+		System.out.println("扩展实现postProcessBeanFactory");
 	}
 }

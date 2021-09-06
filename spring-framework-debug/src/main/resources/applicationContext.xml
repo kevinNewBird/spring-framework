@@ -10,7 +10,7 @@
 	等同于<context:annotation-config />配置，默认就是true，
 	也就是说，如果配置了context:component-scan其实就没有必要配置annotation-config 了。
 	-->
-	<context:component-scan base-package="com.springframework.analysis" annotation-config="true"/>
+	<context:component-scan base-package="com.mashibing.analysis" annotation-config="true"/>
 
 	<!-- name属性：用于指定bean的别名，小名 -->
 	<!--
