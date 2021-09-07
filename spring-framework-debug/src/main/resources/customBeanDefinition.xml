@@ -11,8 +11,10 @@
 	-->
 	<context:component-scan base-package="com.mashibing.analysis" annotation-config="true"/>
 
-	<!--自定义bean属性信息增强器-->
-	<bean class="com.mashibing.analysis.MyBeanFactoryPostProcessor"/>
+	<!--自定义bean属性信息增强器,实现BeanFactoryPostProcessor-->
+	<bean class="com.mashibing.analysis.selfbdpp.MyBeanFactoryPostProcessor"/>
+	<!--自定义bean属性信息增强器,实现BeanDefinitionRegistryPostProcessor-->
+	<bean class="com.mashibing.analysis.selfbdrpp.MyBeanDefinitionRegistryPostProcessor"/>
 
 	<!-- name属性：用于指定bean的别名，小名 -->
 	<!--

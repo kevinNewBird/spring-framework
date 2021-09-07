@@ -17,10 +17,15 @@ public class BeanContextTest {
 	public static void main(String[] args) throws Exception {
 		// 加载xml -> 解析xml -> 封装BeanDefinition -> 实例化 -> 放到容器中 ->从容器中取出
 		//1.使用自带的bean属性增强器
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+//		invokeCustomXML("applicationContext.xml");
 
 		//1.使用自实现的bean属性增强器 MyBeanFactoryPostProcessor
-//		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("customBeanDefinition.xml");
+		invokeCustomXML("customBeanDefinition.xml");
+
+	}
+
+	private static void invokeCustomXML(String oXMLName) {
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(oXMLName);
 		Person instance = context.getBean("person", Person.class);
 		System.out.println(instance.getApplicationContext());
 		System.out.println("-------------------------------------");
@@ -30,7 +35,6 @@ public class BeanContextTest {
 		// 获取FactoryBean本身
 //		PersonFactoryBean pb2 = (PersonFactoryBean) context.getBean("&personFactoryBean");
 //		System.out.println(p2);
-
 	}
 
 }
