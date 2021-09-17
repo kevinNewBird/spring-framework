@@ -21,10 +21,10 @@ public class BeanContextTestByXMLPlaceHolder {
 //		validateCustomTagLoading();
 
 		// 2.自定义属性编辑器
-//		validateCustomPropertyEditorLoading();
+		validateCustomPropertyEditorLoading();
 
 		// 3.自定义Aware
-		validateCustomAware();
+//		validateCustomAware();
 	}
 
 	// 验证:自定义标签解析

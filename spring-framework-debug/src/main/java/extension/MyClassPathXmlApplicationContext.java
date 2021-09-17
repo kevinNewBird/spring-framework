@@ -29,8 +29,8 @@ public class MyClassPathXmlApplicationContext extends ClassPathXmlApplicationCon
 
 	@Override
 	protected void customizeBeanFactory(DefaultListableBeanFactory beanFactory) {
-		super.setAllowBeanDefinitionOverriding(false);
-		super.setAllowCircularReferences(false);
+//		super.setAllowBeanDefinitionOverriding(false);
+//		super.setAllowCircularReferences(false);
 		super.customizeBeanFactory(beanFactory);
 		// 添加自定义的BeanFactoryPostProcessor,或者通过xml的方式
 //		super.addBeanFactoryPostProcessor(new MyBeanFactoryPostProcessor());

@@ -276,7 +276,7 @@ final class PostProcessorRegistrationDelegate {
 		// 记录下BeanPostProcessor的目标计数
 		// 此处为什么要+1呢，原因非常简单，在此方法的最后会添加一个BeanPostProcessorChecker的类
 		int beanProcessorTargetCount = beanFactory.getBeanPostProcessorCount() + 1 + postProcessorNames.length;
-		// 添加BeanPostProcessorChecker(主要用于记录信息)到beanFactory中
+		// 添加BeanPostProcessorChecker(主要用于记录信息)到beanFactory中,所以上一步会有+1
 		beanFactory.addBeanPostProcessor(new BeanPostProcessorChecker(beanFactory, beanProcessorTargetCount));
 
 		// Separate between BeanPostProcessors that implement PriorityOrdered,
@@ -364,7 +364,7 @@ final class PostProcessorRegistrationDelegate {
 
 		// Re-register post-processor for detecting inner beans as ApplicationListeners,
 		// moving it to the end of the processor chain (for picking up proxies etc).
-		// 注册ApplicationListenerDetector到beanFactory中
+		// 注册ApplicationListenerDetector到beanFactory中,放到集合的最后用作后续的检测
 		beanFactory.addBeanPostProcessor(new ApplicationListenerDetector(applicationContext));
 	}
 

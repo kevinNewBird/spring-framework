@@ -45,6 +45,9 @@ import org.springframework.lang.Nullable;
  */
 public abstract class AbstractXmlApplicationContext extends AbstractRefreshableConfigApplicationContext {
 
+	/**
+	 * 初始化容器的validating:也就是约束,xml的两种约束模式: xsd和dtd.
+	 */
 	private boolean validating = true;
 
 

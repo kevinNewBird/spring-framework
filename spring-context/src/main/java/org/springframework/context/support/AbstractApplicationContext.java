@@ -400,31 +400,51 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @since 4.2
 	 */
 	protected void publishEvent(Object event, @Nullable ResolvableType eventType) {
+		// 如果event 为 努力了, 抛出异常
 		Assert.notNull(event, "Event must not be null");
 
 		// Decorate event as an ApplicationEvent if necessary
+		// 装饰事件作为一个应用事件,如果有必要
 		ApplicationEvent applicationEvent;
+		// 如果event是ApplicationEvent 的实例
 		if (event instanceof ApplicationEvent) {
+			// 将event强转为ApplicationEvent对象
 			applicationEvent = (ApplicationEvent) event;
 		} else {
+			// PayloadApplicationEvent: 携带任意有效负载的ApplicationEvent
+			// 创建一个新的PayloadApplicationEvent
 			applicationEvent = new PayloadApplicationEvent<>(this, event);
+			// 如果eventType为 null
 			if (eventType == null) {
+				// 将applicationEvent转换为PayloadApplicationEvent 象，引用其ResolvableType对象
 				eventType = ((PayloadApplicationEvent<?>) applicationEvent).getResolvableType();
 			}
 		}
 
 		// Multicast right now if possible - or lazily once the multicaster is initialized
+		// 如果可能的话，现在就进行组播——或者在组播初始化后延迟
+		// earlyApplicationEvents：在多播程序设置之前发布的ApplicationEvent
+		// 如果earlyApplicationEvents不为 null，这种情况只在上下文的多播器还没有初始化的情况下才会成立，会将applicationEvent
+		// 添加到earlyApplicationEvents保存起来，待多博器初始化后才继续进行多播到适当的监听器
 		if (this.earlyApplicationEvents != null) {
+			//将applicationEvent添加到 earlyApplicationEvents
 			this.earlyApplicationEvents.add(applicationEvent);
 		} else {
+			// 多播applicationEvent到适当的监听器
 			getApplicationEventMulticaster().multicastEvent(applicationEvent, eventType);
 		}
 
 		// Publish event via parent context as well...
+		// 通过父上下文发布事件
+		// 如果parent不为null
 		if (this.parent != null) {
+			// 如果parent是AbstractApplicationContext的实例
 			if (this.parent instanceof AbstractApplicationContext) {
+				// 将event多播到所有适合的监听器。如果event不是ApplicationEvent实例
+				// ，会将其封装成PayloadApplicationEvent对象再进行多播
 				((AbstractApplicationContext) this.parent).publishEvent(event, eventType);
 			} else {
+				// 通知与event事件应用程序注册的所有匹配的监听器
 				this.parent.publishEvent(event);
 			}
 		}
@@ -816,6 +836,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		// 首先判断是否已有xml文件定义了id为messageSource的bean对象
 		if (beanFactory.containsLocalBean(MESSAGE_SOURCE_BEAN_NAME)) {
 			// 如果有，则从BeanFactory中获取这个对象
+			// MessageSource此接口提供了处理消息的策略，包含了信息的国际化和包含参数的信息的替换
 			this.messageSource = beanFactory.getBean(MESSAGE_SOURCE_BEAN_NAME, MessageSource.class);
 			// Make MessageSource aware of parent MessageSource.
 			// 当父类bean工厂不为空，并且这个bean对象是HierarchicalMessageSource类型
@@ -857,7 +878,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		// 获取当前bean工厂,一般是DefaultListableBeanFactory
 		ConfigurableListableBeanFactory beanFactory = getBeanFactory();
 		// 判断容器中是否存在bdName为applicationEventMulticaster的bd，也就是说自定义的事件监听多路广播器
-		// ，必须实现ApplicationEventMulticaster接口
+		// ，必须实现ApplicationEventMulticaster接口.默认不包含applicationEventMulticaster
 		if (beanFactory.containsLocalBean(APPLICATION_EVENT_MULTICASTER_BEAN_NAME)) {
 			// 如果有，则从bean工厂得到这个bean对象
 			this.applicationEventMulticaster =
@@ -944,6 +965,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		String[] listenerBeanNames = getBeanNamesForType(ApplicationListener.class, true, false);
 		for (String listenerBeanName : listenerBeanNames) {
 			getApplicationEventMulticaster().addApplicationListenerBean(listenerBeanName);
+//			getApplicationEventMulticaster().addApplicationListener(this.getBean(listenerBeanName,ApplicationListener.class));
 		}
 
 		// Publish early application events now that we finally have a multicaster...
@@ -973,13 +995,13 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		// Register a default embedded value resolver if no bean post-processor
 		// (such as a PropertyPlaceholderConfigurer bean) registered any before:
 		// at this point, primarily for resolution in annotation attribute values.
-		// 如果beanFactory之前没有注册嵌入值解析器，则注册默认的嵌入值解析器，主要用于注解属性值的解析
+		// 如果beanFactory之前没有注册嵌入值解析器，则注册默认的嵌入值解析器，主要用于注解属性值的解析[invokeBeanFactoryPostProcessors]
 		if (!beanFactory.hasEmbeddedValueResolver()) {
 			beanFactory.addEmbeddedValueResolver(strVal -> getEnvironment().resolvePlaceholders(strVal));
 		}
 
 		// Initialize LoadTimeWeaverAware beans early to allow for registering their transformers early.
-		// 尽早初始化loadTimeWeaverAware bean,以便尽早注册它们的转换器
+		// 尽早初始化loadTimeWeaverAware bean,以便尽早注册它们的转换器[AOP]
 		String[] weaverAwareNames = beanFactory.getBeanNamesForType(LoadTimeWeaverAware.class, false, false);
 		for (String weaverAwareName : weaverAwareNames) {
 			getBean(weaverAwareName);

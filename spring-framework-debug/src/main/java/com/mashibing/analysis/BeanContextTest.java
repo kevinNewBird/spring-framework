@@ -1,6 +1,7 @@
 package com.mashibing.analysis;
 
 import com.mashibing.analysis.pojo.Person;
+import com.mashibing.analysis.pojo.PersonFactoryBean;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -12,23 +13,29 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * version 1.0
  */
 public class BeanContextTest {
-
+	static ClassPathXmlApplicationContext context;
 
 	public static void main(String[] args) throws Exception {
 		// 加载xml -> 解析xml -> 封装BeanDefinition -> 实例化 -> 放到容器中 ->从容器中取出
-		//1.使用自带的bean属性增强器
+		//1.使用自带的bean属性增强器,getMergedLocalBeanDefinition
 //		invokeCustomXML("applicationContext.xml");
 
-		//1.使用自实现的bean属性增强器 MyBeanFactoryPostProcessor
-		invokeCustomXML("customBeanDefinition.xml");
+		//2.使用自实现的bean属性增强器 MyBeanFactoryPostProcessor
+//		invokeCustomXML("customBeanDefinition.xml");
 
+		// 3. 使用factoryBean
+		invokeCustomXML("factoryBean.xml");
+		PersonFactoryBean fb = context.getBean("&personFB", PersonFactoryBean.class);
+		System.out.println(fb.getObject());
+//		Person instance = context.getBean(Person.class);
+//		System.out.println(instance);
 	}
 
 	private static void invokeCustomXML(String oXMLName) {
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(oXMLName);
-		Person instance = context.getBean("person", Person.class);
-		System.out.println(instance.getApplicationContext());
-		System.out.println("-------------------------------------");
+		context = new ClassPathXmlApplicationContext(oXMLName);
+//		Person instance = context.getBean("person", Person.class);
+//		System.out.println(instance.getApplicationContext());
+//		System.out.println("-------------------------------------");
 
 		// 获取FactoryBean创建的对象
 //		Person p2 = (Person) context.getBean("personFactoryBean");

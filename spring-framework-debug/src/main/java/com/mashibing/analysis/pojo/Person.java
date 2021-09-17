@@ -84,5 +84,13 @@ public class Person implements ApplicationContextAware, EnvironmentAware, BeanNa
 		this.applicationContext.getAliases(this.beanName);
 	}
 
-
+	@Override
+	public String toString() {
+		return "Person{" +
+				"applicationContext=" + applicationContext +
+				", beanName='" + beanName + '\'' +
+				", id=" + id +
+				", name='" + name + '\'' +
+				'}';
+	}
 }

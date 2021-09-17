@@ -129,13 +129,20 @@ public class SimpleApplicationEventMulticaster extends AbstractApplicationEventM
 
 	@Override
 	public void multicastEvent(final ApplicationEvent event, @Nullable ResolvableType eventType) {
+		// 如果eventType不为null就引用eventType;否则将event转换为ResolvableType对象再引用
 		ResolvableType type = (eventType != null ? eventType : resolveDefaultEventType(event));
+		// 获取此多播器的当前任务线程池
 		Executor executor = getTaskExecutor();
+		// getApplicationListeners方法是返回与给定事件类型匹配的应用监听器集合
+		// 遍历获取所有支持event的监听器
 		for (ApplicationListener<?> listener : getApplicationListeners(event, type)) {
+			//如果executor不为null
 			if (executor != null) {
+				//使用executor回调listener的onApplicationEvent方法，传入event
 				executor.execute(() -> invokeListener(listener, event));
 			}
 			else {
+				//回调listener的onApplicationEvent方法，传入event
 				invokeListener(listener, event);
 			}
 		}
@@ -152,16 +159,21 @@ public class SimpleApplicationEventMulticaster extends AbstractApplicationEventM
 	 * @since 4.1
 	 */
 	protected void invokeListener(ApplicationListener<?> listener, ApplicationEvent event) {
+		// 获取此多播器的当前错误处理程序
 		ErrorHandler errorHandler = getErrorHandler();
+		// 如果errorHandler不为null
 		if (errorHandler != null) {
 			try {
+				// 回调listener的onApplicationEvent方法，传入event
 				doInvokeListener(listener, event);
 			}
 			catch (Throwable err) {
+				// 交给errorHandler接收处理err
 				errorHandler.handleError(err);
 			}
 		}
 		else {
+			// 回调listener的onApplicationEvent方法，传入event
 			doInvokeListener(listener, event);
 		}
 	}
@@ -169,9 +181,12 @@ public class SimpleApplicationEventMulticaster extends AbstractApplicationEventM
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	private void doInvokeListener(ApplicationListener listener, ApplicationEvent event) {
 		try {
+			//回调listener的onApplicationEvent方法，
+			// 传入event:contextrefreshListener:onapplicaitonEvent:FrameworkServlet.this.onApplicationEvent()
 			listener.onApplicationEvent(event);
 		}
 		catch (ClassCastException ex) {
+			//获取异常信息
 			String msg = ex.getMessage();
 			if (msg == null || matchesClassCastMessage(msg, event.getClass())) {
 				// Possibly a lambda-defined listener which we could not resolve the generic event type for
@@ -182,6 +197,7 @@ public class SimpleApplicationEventMulticaster extends AbstractApplicationEventM
 				}
 			}
 			else {
+				//抛出异常
 				throw ex;
 			}
 		}

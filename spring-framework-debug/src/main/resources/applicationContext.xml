@@ -21,8 +21,16 @@
 	其实xml发展到了今天，id属性的限制也就不存在了
 	3. containsBeanDefinition(beanName)只能判断id，不能判断name；而containsBean(beanName)id与name都可以进行判断
 	-->
-	<bean id="person" class="com.mashibing.analysis.pojo.Person"/>
+	<bean id="person" class="com.mashibing.analysis.pojo.Person" parent="conversionService"/>
 
-<!--	<bean id="personFactoryBean" class="PersonFactoryBean"/>-->
+
+	<bean id="studentConverter" class="com.mashibing.analysis.selfConverter.StudentConverter"></bean>
+	<bean id ="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+		<property name="converters">
+			<set>
+				<ref bean="studentConverter"></ref>
+			</set>
+		</property>
+	</bean>
 
 </beans>

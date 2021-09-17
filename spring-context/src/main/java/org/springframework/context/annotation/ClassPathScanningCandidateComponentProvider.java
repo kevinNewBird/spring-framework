@@ -374,24 +374,33 @@ public class ClassPathScanningCandidateComponentProvider implements EnvironmentC
 		Set<BeanDefinition> candidates = new LinkedHashSet<>();
 		try {
 			Set<String> types = new HashSet<>();
+			// 遍历包含的过滤器
 			for (TypeFilter filter : this.includeFilters) {
+				// 提取对应的类型
 				String stereotype = extractStereotype(filter);
 				if (stereotype == null) {
 					throw new IllegalArgumentException("Failed to extract stereotype from " + filter);
 				}
+				// 添加到类型集合中
 				types.addAll(index.getCandidateTypes(basePackage, stereotype));
 			}
 			boolean traceEnabled = logger.isTraceEnabled();
 			boolean debugEnabled = logger.isDebugEnabled();
+			// 遍历匹配所有的类资源
 			for (String type : types) {
+				// 使用metadataReader读取资源，metadataReader是专门用来访问元数据的类
 				MetadataReader metadataReader = getMetadataReaderFactory().getMetadataReader(type);
+				// 使用过滤器检查给定的类是否我候选类（候选类，与excludeFilters的所有Filter不匹配
+				// ，并且与includeFilters的至少一个Filter匹配）
 				if (isCandidateComponent(metadataReader)) {
 					AnnotatedGenericBeanDefinition sbd = new AnnotatedGenericBeanDefinition(
 							metadataReader.getAnnotationMetadata());
+					// 判断sbd是否为候选类
 					if (isCandidateComponent(sbd)) {
 						if (debugEnabled) {
 							logger.debug("Using candidate component class from index: " + type);
 						}
+						// 确定为候选类，则添加到candidates
 						candidates.add(sbd);
 					}
 					else {
