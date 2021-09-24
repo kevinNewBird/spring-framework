@@ -1,5 +1,6 @@
 package com.mashibing.analysis;
 
+import com.mashibing.analysis.methodOverride.lookup.FruitPlate;
 import com.mashibing.analysis.pojo.Person;
 import com.mashibing.analysis.pojo.PersonFactoryBean;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -24,11 +25,18 @@ public class BeanContextTest {
 //		invokeCustomXML("customBeanDefinition.xml");
 
 		// 3. 使用factoryBean
-		invokeCustomXML("factoryBean.xml");
-		PersonFactoryBean fb = context.getBean("&personFB", PersonFactoryBean.class);
-		System.out.println(fb.getObject());
+//		invokeCustomXML("factoryBean.xml");
+//		PersonFactoryBean fb = context.getBean("&personFB", PersonFactoryBean.class);
+//		System.out.println(fb.getObject());
 //		Person instance = context.getBean(Person.class);
 //		System.out.println(instance);
+
+		// 4.look-up  replace
+		invokeCustomXML("methodOverride.xml");
+		FruitPlate fp1 = context.getBean("fruitplate1", FruitPlate.class);
+		fp1.getFruit();
+		FruitPlate fp2 = context.getBean("fruitplate2", FruitPlate.class);
+		fp2.getFruit();
 	}
 
 	private static void invokeCustomXML(String oXMLName) {

@@ -578,7 +578,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		if (logger.isTraceEnabled()) {
 			logger.trace("Creating instance of bean '" + beanName + "'");
 		}
-		RootBeanDefinition mbdToUse = mbd;
+		RootBeanDefinition mbdToUse = mbd;//mbdToUse很有意义
 
 		// Make sure bean class is actually resolved at this point, and
 		// clone the bean definition in case of a dynamically resolved Class

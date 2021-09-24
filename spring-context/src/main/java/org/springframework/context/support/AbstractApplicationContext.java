@@ -986,6 +986,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	protected void finishBeanFactoryInitialization(ConfigurableListableBeanFactory beanFactory) {
 		// Initialize conversion service for this context.
 		// 提供当前上下文, 初始化类型转换器服务
+		// 思路分析: 通过conversionservice找到其默认实现DefaultConversionService(一般的思路都是这样来进行分析)
+		// ,此时我们发现Converter/GenericConverter以及ConverterFactory
 		if (beanFactory.containsBean(CONVERSION_SERVICE_BEAN_NAME) &&
 				beanFactory.isTypeMatch(CONVERSION_SERVICE_BEAN_NAME, ConversionService.class)) {
 			beanFactory.setConversionService(

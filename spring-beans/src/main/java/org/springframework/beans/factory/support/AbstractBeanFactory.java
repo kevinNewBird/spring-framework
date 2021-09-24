@@ -354,9 +354,9 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			}
 
 			// Check if bean definition exists in this factory.
-			// 如果bean定义不存在，就检查父工厂是否有
+			// 获取父类容器:如果bean定义不存在，就检查父工厂是否有
 			BeanFactory parentBeanFactory = getParentBeanFactory();
-			// 如果beanDefinitionMap中也就是在所有已经加载的类中不包含beanName, 那么就尝试从父容器中获取
+			// 如果beanDefinitionMap中也就是在所有已经加载的类中不包含beanName, 那么就尝试从父容器中获取 (先找子,后找父)
 			if (parentBeanFactory != null && !containsBeanDefinition(beanName)) {
 				// Not found -> check parent.
 				// 获取name对应的规范名称【全类名】，如果name前面有'&'，则会返回'&'+规范名称【全类名】
@@ -396,7 +396,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				// 此处做了BeanDefinition对象的转换，当我们从xml文件中加载beandefinition对象的时候，封装的对象是GenericBeanDefinition,
 				// 此处要做类型转换，如果是子类bean的话，会合并父类的相关属性
 				final RootBeanDefinition mbd = getMergedLocalBeanDefinition(beanName);
-				// 检查mbd的合法性，不合格会引发验证异常
+				// 检查mbd的合法性(是否抽象)，不合格会引发验证异常
 				checkMergedBeanDefinition(mbd, beanName, args);
 
 				// Guarantee initialization of beans that the current bean depends on.
@@ -2075,7 +2075,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				// 如果mbd指定了bean类
 				return mbd.getBeanClass();
 			}
-			// 判断是否有安全管理器
+			// (!!!)判断是否有安全管理器,用于赋权限避免运行过程中发生安全问题
 			if (System.getSecurityManager() != null) {
 				return AccessController.doPrivileged((PrivilegedExceptionAction<Class<?>>) () ->
 					doResolveBeanClass(mbd, typesToMatch), getAccessControlContext());

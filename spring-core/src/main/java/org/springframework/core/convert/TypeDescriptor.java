@@ -36,6 +36,8 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.ObjectUtils;
 
 /**
+ *  关于转换目标类型或转换原类型的上下文描述器,能够代表数组和泛型集合类型.
+ *
  * Contextual descriptor about a type to convert from or to.
  * Capable of representing arrays and generic collection types.
  *
