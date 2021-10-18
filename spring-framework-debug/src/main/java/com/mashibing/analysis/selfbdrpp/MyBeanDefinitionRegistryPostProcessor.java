@@ -3,7 +3,6 @@ package com.mashibing.analysis.selfbdrpp;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.*;
-import org.springframework.core.PriorityOrdered;
 
 /**
  * description  MyBeanDefinitionRegistryPostProcessor <BR>
@@ -39,12 +38,25 @@ public class MyBeanDefinitionRegistryPostProcessor implements BeanDefinitionRegi
 	public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
 		System.out.println("实现postProcessBeanDefinitionRegistry---" + MyBeanDefinitionRegistryPostProcessor.class.getSimpleName());
 		// 1.方式一:构建器
+		registerByBuilder(registry);
+		// 2.方式二: new
+//		registerByCreate(registry);
+	}
+
+	// 方式一:构建器
+	private void registerByBuilder(BeanDefinitionRegistry registry) {
+		// 1.方式一:构建器
 		BeanDefinitionBuilder builder = BeanDefinitionBuilder.rootBeanDefinition(MySelfBeanDefinitionRegistryPostProcessor.class);
 		// 1.1. 属性填充,参考doCreateBean方法下的populateBean()
 		builder.addPropertyValue("name", "zhangsan");
 		AbstractBeanDefinition beanDefinition = builder.getBeanDefinition();
+		registry.registerBeanDefinition("teacher", beanDefinition);
+	}
+
+	// 方式二: new
+	private void registerByCreate(BeanDefinitionRegistry registry) {
 		// 2.方式二: new
-//		RootBeanDefinition beanDefinition = new RootBeanDefinition(Teacher.class);
+		RootBeanDefinition beanDefinition = new RootBeanDefinition(Teacher.class);
 		registry.registerBeanDefinition("teacher", beanDefinition);
 	}
 

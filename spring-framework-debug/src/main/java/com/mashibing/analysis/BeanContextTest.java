@@ -3,6 +3,7 @@ package com.mashibing.analysis;
 import com.mashibing.analysis.methodOverride.lookup.FruitPlate;
 import com.mashibing.analysis.pojo.Person;
 import com.mashibing.analysis.pojo.PersonFactoryBean;
+import org.springframework.beans.factory.support.CglibSubclassingInstantiationStrategy;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -22,7 +23,7 @@ public class BeanContextTest {
 //		invokeCustomXML("applicationContext.xml");
 
 		//2.使用自实现的bean属性增强器 MyBeanFactoryPostProcessor
-//		invokeCustomXML("customBeanDefinition.xml");
+		invokeCustomXML("customBeanDefinition.xml");
 
 		// 3. 使用factoryBean
 //		invokeCustomXML("factoryBean.xml");
@@ -32,11 +33,13 @@ public class BeanContextTest {
 //		System.out.println(instance);
 
 		// 4.look-up  replace
-		invokeCustomXML("methodOverride.xml");
-		FruitPlate fp1 = context.getBean("fruitplate1", FruitPlate.class);
-		fp1.getFruit();
-		FruitPlate fp2 = context.getBean("fruitplate2", FruitPlate.class);
-		fp2.getFruit();
+//		invokeCustomXML("methodOverride.xml");
+//		// 获取到的是动态代理对象
+//		FruitPlate fp1 = context.getBean("fruitplate1", FruitPlate.class);
+//		// CglibSubclassingInstantiationStrategy.LookupOverrideMethodInterceptor.intercept()
+//		fp1.getFruit();
+//		FruitPlate fp2 = context.getBean("fruitplate2", FruitPlate.class);
+//		fp2.getFruit();
 	}
 
 	private static void invokeCustomXML(String oXMLName) {
