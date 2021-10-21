@@ -20,10 +20,10 @@ public class BeanContextTest {
 	public static void main(String[] args) throws Exception {
 		// 加载xml -> 解析xml -> 封装BeanDefinition -> 实例化 -> 放到容器中 ->从容器中取出
 		//1.使用自带的bean属性增强器,getMergedLocalBeanDefinition
-//		invokeCustomXML("applicationContext.xml");
+		invokeCustomXML("applicationContext.xml");
 
 		//2.使用自实现的bean属性增强器 MyBeanFactoryPostProcessor
-		invokeCustomXML("customBeanDefinition.xml");
+//		invokeCustomXML("customBeanDefinition.xml");
 
 		// 3. 使用factoryBean
 //		invokeCustomXML("factoryBean.xml");
