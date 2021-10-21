@@ -1,6 +1,7 @@
 package com.mashibing.analysis.reflection;
 
 import com.mashibing.analysis.pojo.Person;
+import com.mashibing.analysis.pojo.Student;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -20,9 +21,15 @@ public class AutowireConstructorTest {
 		invokeCustomXML("reflect-autowireConstructor.xml");
 		// 第一次不会进入autowireConstructor方法,
 		// 第一次对象没有创建BeanDefinition没有缓存构造器,resolved=false直接跳过
-		Person p1 = context.getBean(Person.class);
+//		Person p1 = context.getBean(Person.class);
 		// 第二次才进入
-		Person p2 = context.getBean(Person.class);
+//		Person p2 = context.getBean(Person.class);
+
+
+		Student s1 = context.getBean(Student.class);
+		Student s2 = context.getBean(Student.class);
+
+
 
 	}
 

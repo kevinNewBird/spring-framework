@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 	<!--验证org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor-->
-	<bean id="person" class="com.mashibing.analysis.pojo.Person" scope="prototype">
-<!--		<property name="id" value="1"/>-->
-<!--		<property name="name" value="autowireConstructor"/>-->
+	<!--	<bean id="person" class="com.mashibing.analysis.pojo.Person" scope="prototype">-->
+	<!--		<property name="id" value="1"/>-->
+	<!--		<property name="name" value="autowireConstructor"/>-->
+	<!--		<constructor-arg name="id" value="1" type="java.lang.Integer"/>-->
+	<!--		<constructor-arg name="name" value="autowireConstructor" type="java.lang.String"/>-->
+	<!--	</bean>-->
+
+	<!--注解开启后AnnotationConfigUtils注入默认的内部bean, 才会扫描到注解-->
+	<context:component-scan base-package="com.mashibing.analysis.pojo"/>
+	<!--验证: org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor#determineCandidateConstructors-->
+	<bean id="student" class="com.mashibing.analysis.pojo.Student" scope="prototype">
+		<!--		<property name="id" value="1"/>-->
+		<!--		<property name="name" value="autowireConstructor"/>-->
 		<constructor-arg name="id" value="1" type="java.lang.Integer"/>
-		<constructor-arg name="name" value="autowireConstructor" type="java.lang.String"/>
+		<constructor-arg name="name" value="determineCandidateConstructors" type="java.lang.String"/>
 	</bean>
 </beans>
