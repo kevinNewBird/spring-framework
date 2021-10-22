@@ -1,6 +1,7 @@
 package com.mashibing.analysis.pojo;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 /**
  * description  Student <BR>
@@ -33,20 +34,32 @@ public class Student {
 	}
 
 
-//	public Student() {
-//		System.out.println("Student 初始化构造!!!");
-//	}
+	public Student() {
+		System.out.println("Student 初始化构造!!!");
+	}
 
-//	@Autowired
-	public Student(Integer id){
+	//	@Autowired
+	public Student(Integer id) {
 		this.id = id;
 
 	}
 
-//	@Autowired
-	public Student(Integer id,String name) {
+	//	@Autowired
+	public Student(Integer id, String name) {
 		this.id = id;
 		this.name = name;
+	}
+
+
+	@PostConstruct
+	public void init() {
+		System.out.println("Student init ....");
+	}
+
+
+	@PreDestroy
+	public void destroy() {
+		System.out.println("Student destroy ....");
 	}
 
 }
