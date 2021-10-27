@@ -304,7 +304,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 					// 当某些方法需要提前初始化的时候则会调用addSingletonFactory方法将对应的ObjectFactory初始化策略存储在singletonFactories
 					ObjectFactory<?> singletonFactory = this.singletonFactories.get(beanName);
 					if (singletonFactory != null) {
-						// 如果存在单例对象工厂，则通过工厂创建一个单例对象
+						// 如果存在单例对象工厂，则通过工厂创建一个单例对象(lambda表达式,此时被执行)
 						singletonObject = singletonFactory.getObject();
 						// 记录在缓存中，二级缓存和三级缓存的对象不能同时存在
 						this.earlySingletonObjects.put(beanName, singletonObject);
