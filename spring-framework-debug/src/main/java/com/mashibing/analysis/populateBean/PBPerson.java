@@ -1,5 +1,7 @@
 package com.mashibing.analysis.populateBean;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.awt.print.Book;
 import java.util.*;
 
@@ -32,6 +34,17 @@ public class PBPerson {
 	private Map<String, Object> maps;
 
 	private Properties properties;
+
+
+	@PostConstruct
+	public void init(){
+		System.out.println("init---person");
+	}
+
+	@PreDestroy
+	public void destroy(){
+		System.out.println("destroy---person");
+	}
 
 //-----------------------constructor-----------------------------
 	public PBPerson(int id, String name, int age, String gender) {

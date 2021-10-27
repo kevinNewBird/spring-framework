@@ -4,12 +4,12 @@
 	   xmlns:context="http://www.springframework.org/schema/context"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 	<!--验证populateBean方法下的1746 postProcessProperties调用-->
-	<context:component-scan base-package="com.mashibing.analysis.populateBean"/>
+<!--	<context:component-scan base-package="com.mashibing.analysis.populateBean"/>-->
 
     <!--populateBean流程验证-->
 	<bean id="p1" class="com.mashibing.analysis.populateBean.PBPerson" autowire="byName"/>
 	<bean id="p2" class="com.mashibing.analysis.populateBean.PBPerson" autowire="byType"/>
-	<bean id="address" class="com.mashibing.analysis.populateBean.PBAddress">
+	<bean id="paddress" class="com.mashibing.analysis.populateBean.PBAddress">
 		<property name="province" value="河北"/>
 		<property name="city" value="邯郸"/>
 		<property name="town" value="武安"/>
