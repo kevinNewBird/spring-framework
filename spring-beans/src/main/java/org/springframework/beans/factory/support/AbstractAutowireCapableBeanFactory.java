@@ -2281,7 +2281,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * @param bean
 	 */
 	private void invokeAwareMethods(final String beanName, final Object bean) {
-		//如果 bean 是 Aware 实例
+		//如果 bean 是 Aware 实例(这就是前面构造函数忽略的三个)
 		if (bean instanceof Aware) {
 			//如果bean是BeanNameAware实例
 			if (bean instanceof BeanNameAware) {
