@@ -15,8 +15,12 @@ public class TestCycle {
 
 
 	public static void main(String[] args) {
+		// 此时这两个类中不可有toString方法,否则会报错
 		ApplicationContext ac = new ClassPathXmlApplicationContext("cycle.xml");
-		A instance = ac.getBean(A.class);
+		A a = ac.getBean(A.class);
+		System.out.println(a.getB());
+		B b = ac.getBean(B.class);
+		System.out.println(b.getA());
 
 	}
 }

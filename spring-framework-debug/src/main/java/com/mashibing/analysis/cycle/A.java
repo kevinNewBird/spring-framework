@@ -29,10 +29,10 @@ public class A {
 		this.name = name;
 	}
 
-	@Override
+/*	@Override
 	public String toString() {
 		return "A{" +
 				"b=" + b +
 				'}';
-	}
+	}*/
 }

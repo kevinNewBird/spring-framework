@@ -702,7 +702,12 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			}
 			// 解决循环依赖
 			// 为避免后期循环依赖，可以在bean初始化完成前将创建实例的ObjectFactory加入工厂
-			addSingletonFactory(beanName, () -> getEarlyBeanReference(beanName, mbd, bean));
+//			addSingletonFactory(beanName, () -> getEarlyBeanReference(beanName, mbd, bean));
+
+			// 修改为二级缓存: 只保留二级缓存,不向三级缓存中存放对象
+			earlySingletonObjects.put(beanName, bean);
+			registeredSingletons.add(beanName);
+
 		}
 
 		// Initialize the bean instance.

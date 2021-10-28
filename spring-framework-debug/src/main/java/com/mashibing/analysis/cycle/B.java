@@ -32,11 +32,11 @@ public class B {
 	}
 
 
-	@Override
+/*	@Override
 	public String toString() {
 		return "B{" +
 				"a=" + a +
 				'}';
-	}
+	}*/
 
 }
