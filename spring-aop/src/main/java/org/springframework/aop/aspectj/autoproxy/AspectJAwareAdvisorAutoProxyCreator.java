@@ -34,6 +34,9 @@ import org.springframework.core.Ordered;
 import org.springframework.util.ClassUtils;
 
 /**
+ *  AbstractAdvisorAutoProxyCreator的子类。
+ *  使用AspectJ语法创建Advisor和代理对象。
+ *
  * {@link org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator}
  * subclass that exposes AspectJ's invocation context and understands AspectJ's rules
  * for advice precedence when multiple pieces of advice come from the same aspect.
@@ -95,6 +98,12 @@ public class AspectJAwareAdvisorAutoProxyCreator extends AbstractAdvisorAutoProx
 		AspectJProxyUtils.makeAdvisorChainAspectJCapableIfNecessary(candidateAdvisors);
 	}
 
+	/**
+	 * 找出Aspect切面和解析通知器的方法，通知器Advisor里面有通知Advice实例
+	 * @param beanClass the class of the bean
+	 * @param beanName the name of the bean
+	 * @return
+	 */
 	@Override
 	protected boolean shouldSkip(Class<?> beanClass, String beanName) {
 		// TODO: Consider optimization by caching the list of the aspect names

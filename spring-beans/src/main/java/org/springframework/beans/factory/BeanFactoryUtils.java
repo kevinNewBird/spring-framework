@@ -31,6 +31,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
+ * 操作beanFactory的便利方法，特别是ListableBeanFactory接口
+ *
  * Convenience methods operating on bean factories, in particular
  * on the {@link ListableBeanFactory} interface.
  *
@@ -47,12 +49,16 @@ import org.springframework.util.StringUtils;
 public abstract class BeanFactoryUtils {
 
 	/**
+	 * 生成bean名字的分隔符
+	 *
 	 * Separator for generated bean names. If a class name or parent name is not
 	 * unique, "#1", "#2" etc will be appended, until the name becomes unique.
 	 */
 	public static final String GENERATED_BEAN_NAME_SEPARATOR = "#";
 
 	/**
+	 * 从具有FactoryBean前缀的名称缓存到剥离的名称，而无需取消引用
+	 *
 	 * Cache from name with factory bean prefix to stripped name without dereference.
 	 * @since 5.1
 	 * @see BeanFactory#FACTORY_BEAN_PREFIX
@@ -61,6 +67,8 @@ public abstract class BeanFactoryUtils {
 
 
 	/**
+	 * 返回给定名称是否为FactoryBean的解引用名.（从FactoryBean的解引用前缀开始）
+	 *
 	 * Return whether the given name is a factory dereference
 	 * (beginning with the factory dereference prefix).
 	 * @param name the name of the bean
@@ -68,10 +76,15 @@ public abstract class BeanFactoryUtils {
 	 * @see BeanFactory#FACTORY_BEAN_PREFIX
 	 */
 	public static boolean isFactoryDereference(@Nullable String name) {
+		// 如果有传入bean名且bean名是以'&'开头，则返回true，表示是BeanFactory的解引用，否则
+		// 返回false，表示不是BeanFactory的解引用
 		return (name != null && name.startsWith(BeanFactory.FACTORY_BEAN_PREFIX));
 	}
 
 	/**
+	 * 判断是不是有&前缀，没有就直接返回，说明不是FactoryBean的名字
+	 * ，否则就从缓存里获取，然后就把前缀&去掉返回
+	 *
 	 * Return the actual bean name, stripping out the factory dereference
 	 * prefix (if any, also stripping repeated factory prefixes if found).
 	 * @param name the name of the bean
@@ -80,11 +93,16 @@ public abstract class BeanFactoryUtils {
 	 */
 	public static String transformedBeanName(String name) {
 		Assert.notNull(name, "'name' must not be null");
+		// 如果beanName不以&开头，则直接返回
 		if (!name.startsWith(BeanFactory.FACTORY_BEAN_PREFIX)) {
 			return name;
 		}
+		// 从transformedBeanNameCache中获取bean名对应的转换后的名称
 		return transformedBeanNameCache.computeIfAbsent(name, beanName -> {
 			do {
+				// 从beanName的开头位置去掉'&',并重新赋值给beanName
+				// ，再重新检查是还是以'&'开头，是的话就再截
+				// 知道开头不是以'&'开头后，加入到transformedBeanNameCache中
 				beanName = beanName.substring(BeanFactory.FACTORY_BEAN_PREFIX.length());
 			}
 			while (beanName.startsWith(BeanFactory.FACTORY_BEAN_PREFIX));
@@ -93,6 +111,8 @@ public abstract class BeanFactoryUtils {
 	}
 
 	/**
+	 * 判断给定的beanName是否是通过默认的命名策略来生成bean的名称
+	 *
 	 * Return whether the given name is a bean name which has been generated
 	 * by the default naming strategy (containing a "#..." part).
 	 * @param name the name of the bean
@@ -106,6 +126,8 @@ public abstract class BeanFactoryUtils {
 	}
 
 	/**
+	 * 从给定的beanName提取原始的bean名称
+	 *
 	 * Extract the "raw" bean name from the given (potentially generated) bean name,
 	 * excluding any "#..." suffixes which might have been added for uniqueness.
 	 * @param name the potentially generated bean name
@@ -122,6 +144,8 @@ public abstract class BeanFactoryUtils {
 	// Retrieval of bean names
 
 	/**
+	 * 统计在当前beanFactory的继承关系中的全部bean对象个数
+	 *
 	 * Count all beans in any hierarchy in which this factory participates.
 	 * Includes counts of ancestor bean factories.
 	 * <p>Beans that are "overridden" (specified in a descendant factory
@@ -135,6 +159,8 @@ public abstract class BeanFactoryUtils {
 	}
 
 	/**
+	 *  返回工厂中的所有beanNames，包括factory的祖先
+	 *
 	 * Return all bean names in the factory, including ancestor factories.
 	 * @param lbf the bean factory
 	 * @return the array of matching bean names, or an empty array if none
@@ -145,6 +171,8 @@ public abstract class BeanFactoryUtils {
 	}
 
 	/**
+	 * 返回给定类型的所有bean的名称集合，包括定义在祖先中的bean
+	 *
 	 * Get all bean names for the given type, including those defined in ancestor
 	 * factories. Will return unique names in case of overridden bean definitions.
 	 * <p>Does consider objects created by FactoryBeans, which means that FactoryBeans
@@ -160,12 +188,18 @@ public abstract class BeanFactoryUtils {
 	 */
 	public static String[] beanNamesForTypeIncludingAncestors(ListableBeanFactory lbf, ResolvableType type) {
 		Assert.notNull(lbf, "ListableBeanFactory must not be null");
+		// 根据类型返回listBeanFactory的beanName集合
 		String[] result = lbf.getBeanNamesForType(type);
+		// 判断listBeanFactory是否是继承类型的beanFactory
 		if (lbf instanceof HierarchicalBeanFactory) {
+			// 类型转换
 			HierarchicalBeanFactory hbf = (HierarchicalBeanFactory) lbf;
+			// 判断父工厂是否归属于ListableBeanFactory
 			if (hbf.getParentBeanFactory() instanceof ListableBeanFactory) {
+				// 递归调用
 				String[] parentResult = beanNamesForTypeIncludingAncestors(
 						(ListableBeanFactory) hbf.getParentBeanFactory(), type);
+				// 合并父beanFactory的beanName
 				result = mergeNamesWithParent(result, parentResult, hbf);
 			}
 		}
@@ -173,6 +207,8 @@ public abstract class BeanFactoryUtils {
 	}
 
 	/**
+	 * 返回给定类型的所有bean的名称集合，包括定义在祖先中的bean
+	 *
 	 * Get all bean names for the given type, including those defined in ancestor
 	 * factories. Will return unique names in case of overridden bean definitions.
 	 * <p>Does consider objects created by FactoryBeans if the "allowEagerInit"
@@ -211,6 +247,8 @@ public abstract class BeanFactoryUtils {
 	}
 
 	/**
+	 * 返回给定类型的所有bean的名称集合，包括定义在祖先中的bean
+	 *
 	 * Get all bean names for the given type, including those defined in ancestor
 	 * factories. Will return unique names in case of overridden bean definitions.
 	 * <p>Does consider objects created by FactoryBeans, which means that FactoryBeans
@@ -238,6 +276,8 @@ public abstract class BeanFactoryUtils {
 	}
 
 	/**
+	 * 获取给定类型的所有bean名,包括父级工厂中定义的名称
+	 *
 	 * Get all bean names for the given type, including those defined in ancestor
 	 * factories. Will return unique names in case of overridden bean definitions.
 	 * <p>Does consider objects created by FactoryBeans if the "allowEagerInit"
@@ -262,12 +302,24 @@ public abstract class BeanFactoryUtils {
 			ListableBeanFactory lbf, Class<?> type, boolean includeNonSingletons, boolean allowEagerInit) {
 
 		Assert.notNull(lbf, "ListableBeanFactory must not be null");
+		// 获取与type（包括子类）匹配的bean名称
+		// ,根据includeNonSingletons来决定是否包含原型+单例还是只包含单例
+		// ,根据allowEargerInit决定是否初始化lazy-init单例和由FactoryBeans创建的对象以进行类型检查
 		String[] result = lbf.getBeanNamesForType(type, includeNonSingletons, allowEagerInit);
+		// HierarchicalBeanFactory提供父容器的访问功能
+		// 如果lbf是HierarchicalBeanFactory
 		if (lbf instanceof HierarchicalBeanFactory) {
+			// 将lbf强转HierarchicalBeanFactory对象
 			HierarchicalBeanFactory hbf = (HierarchicalBeanFactory) lbf;
+			// ListableBeanFactory：扩展BeanFactory使其支持迭代Ioc容器持有的Bean对象。注意如果
+			// ListableBeanFactory同时也是HierarchicalBeanFactory，那么大多数情况下，
+			// 只迭代当前Ioc容器持有的Bean对象，不会在体系结构中想父级递归迭代
+			// 如果hbf的父工厂是ListableBeanFactory对象
 			if (hbf.getParentBeanFactory() instanceof ListableBeanFactory) {
+				// 递归该方法获取父工厂里type的所有bean名,包括父级工厂中定义的名称
 				String[] parentResult = beanNamesForTypeIncludingAncestors(
 						(ListableBeanFactory) hbf.getParentBeanFactory(), type, includeNonSingletons, allowEagerInit);
+				// 将result结果与parentResult合并
 				result = mergeNamesWithParent(result, parentResult, hbf);
 			}
 		}
@@ -275,6 +327,8 @@ public abstract class BeanFactoryUtils {
 	}
 
 	/**
+	 * 返回包含注解的beanName的集合
+	 *
 	 * Get all bean names whose {@code Class} has the supplied {@link Annotation}
 	 * type, including those defined in ancestor factories, without creating any bean
 	 * instances yet. Will return unique names in case of overridden bean definitions.
@@ -288,12 +342,18 @@ public abstract class BeanFactoryUtils {
 			ListableBeanFactory lbf, Class<? extends Annotation> annotationType) {
 
 		Assert.notNull(lbf, "ListableBeanFactory must not be null");
+		// 根据Annotation类型返回对应beanName的集合
 		String[] result = lbf.getBeanNamesForAnnotation(annotationType);
+		// 判断是否归属于HierarchicalBeanFactory类型
 		if (lbf instanceof HierarchicalBeanFactory) {
+			// 类型强制转换
 			HierarchicalBeanFactory hbf = (HierarchicalBeanFactory) lbf;
+			// 判断父beanFactory是否是ListableBeanFactory
 			if (hbf.getParentBeanFactory() instanceof ListableBeanFactory) {
+				// 递归调用
 				String[] parentResult = beanNamesForAnnotationIncludingAncestors(
 						(ListableBeanFactory) hbf.getParentBeanFactory(), annotationType);
+				// 合并父容器中的beanName
 				result = mergeNamesWithParent(result, parentResult, hbf);
 			}
 		}
@@ -304,6 +364,9 @@ public abstract class BeanFactoryUtils {
 	// Retrieval of bean instances
 
 	/**
+	 * 返回给定类型或者给定类型子类的所有bean
+	 * ,如果beanfactory是一个有继承关系的beanFactory，同事获取其祖先中的bean
+	 *
 	 * Return all beans of the given type or subtypes, also picking up beans defined in
 	 * ancestor bean factories if the current bean factory is a HierarchicalBeanFactory.
 	 * The returned Map will only contain beans of this type.
@@ -460,6 +523,8 @@ public abstract class BeanFactoryUtils {
 	}
 
 	/**
+	 * 返回一个单例对象通过给定的类型和子类型，
+	 *
 	 * Return a single bean of the given type or subtypes, not looking in ancestor
 	 * factories. Useful convenience method when we expect a single bean and
 	 * don't care about the bean name.
@@ -518,6 +583,8 @@ public abstract class BeanFactoryUtils {
 
 
 	/**
+	 * 将给定的bean名结果与给定的父结果合并
+	 *
 	 * Merge the given bean names result with the given parent result.
 	 * @param result the local bean name result
 	 * @param parentResult the parent bean name result (possibly empty)
@@ -526,20 +593,29 @@ public abstract class BeanFactoryUtils {
 	 * @since 4.3.15
 	 */
 	private static String[] mergeNamesWithParent(String[] result, String[] parentResult, HierarchicalBeanFactory hbf) {
+		// 如果parentResult是空数组，直接返回result
 		if (parentResult.length == 0) {
 			return result;
 		}
+		// 定义一个合并后的bean名结果集，初始化长度为result数组长度+parentResult数组长度
 		List<String> merged = new ArrayList<>(result.length + parentResult.length);
+		// 将result全部添加到merged中
 		merged.addAll(Arrays.asList(result));
+		// 遍历parentResult
 		for (String beanName : parentResult) {
+			// 如果merged没包含beanName且hbf没包含给定beanName
 			if (!merged.contains(beanName) && !hbf.containsLocalBean(beanName)) {
+				// 将beanName添加到merged中
 				merged.add(beanName);
 			}
 		}
+		// 将merged装换成数组返回出去
 		return StringUtils.toStringArray(merged);
 	}
 
 	/**
+	 *  在给定的map中通过给定的类型提取唯一的bean
+	 *
 	 * Extract a unique bean for the given type from the given Map of matching beans.
 	 * @param type type of bean to match
 	 * @param matchingBeans all matching beans found
