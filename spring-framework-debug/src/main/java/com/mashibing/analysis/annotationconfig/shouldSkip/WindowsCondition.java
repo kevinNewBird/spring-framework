@@ -1,4 +1,4 @@
-package com.mashibing.analysis.shouldSkip;
+package com.mashibing.analysis.annotationconfig.shouldSkip;
 
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -8,6 +8,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.core.type.MethodMetadata;
+import sun.nio.cs.ext.EUC_JP_LINUX;
 
 /**
  * description  WindowsCondition <BR>
@@ -39,6 +40,7 @@ public class WindowsCondition implements Condition {
 		BeanDefinitionRegistry registry = context.getRegistry();
 		// 获取当前系统名
 		String property = environment.getProperty("os.name");
+		String os = System.getProperty("os.name");
 		// 包含windows则说明是windows系统,返回true
 		if (property.contains("Windows")) {
 			return true;

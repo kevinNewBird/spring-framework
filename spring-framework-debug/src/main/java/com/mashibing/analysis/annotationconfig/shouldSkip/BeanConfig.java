@@ -1,6 +1,6 @@
-package com.mashibing.analysis.shouldSkip;
+package com.mashibing.analysis.annotationconfig.shouldSkip;
 
-import com.mashibing.analysis.pojo.Person;
+import com.mashibing.analysis.factoryBean.Person;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;

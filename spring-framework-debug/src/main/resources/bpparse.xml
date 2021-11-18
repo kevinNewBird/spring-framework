@@ -3,11 +3,5 @@
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!--验证BeanDefinition转换为MergedBeanDefinition的时机-->
-	<bean class="com.mashibing.analysis.factoryBean.Student"/>
-
-	<!--验证FactoryBean-->
-	<bean id="personFB" class="com.mashibing.analysis.factoryBean.PersonFactoryBean"/>
-
-
+	<bean class="com.mashibing.analysis.bpparse.Grass"/>
 </beans>

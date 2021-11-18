@@ -1,4 +1,4 @@
-package com.mashibing.analysis.pojo;
+package com.mashibing.analysis.factoryBean;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;

@@ -1,9 +1,5 @@
 package com.mashibing.analysis;
 
-import com.mashibing.analysis.methodOverride.lookup.FruitPlate;
-import com.mashibing.analysis.pojo.Person;
-import com.mashibing.analysis.pojo.PersonFactoryBean;
-import org.springframework.beans.factory.support.CglibSubclassingInstantiationStrategy;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**

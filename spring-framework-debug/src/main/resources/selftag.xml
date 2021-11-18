@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:msb="http://www.mashibing.com/schema/user"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	   http://www.mashibing.com/schema/user http://www.mashibing.com/schema/user.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!--可以通过这个验证标签-->
+	<context:property-placeholder location="classpath:db.properties"/>
+    <!--自定义标签-->
+	<msb:user id="msb" username="lian" email="zhaosong@trs.com" password="123"/>
+</beans>

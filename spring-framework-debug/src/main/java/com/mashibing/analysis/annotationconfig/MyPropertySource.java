@@ -1,4 +1,4 @@
-package com.mashibing.analysis.config;
+package com.mashibing.analysis.annotationconfig;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

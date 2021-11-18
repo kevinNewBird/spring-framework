@@ -1,7 +1,6 @@
 package com.mashibing.analysis.reflection;
 
-import com.mashibing.analysis.pojo.Person;
-import com.mashibing.analysis.pojo.Student;
+import com.mashibing.analysis.factoryBean.Student;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**

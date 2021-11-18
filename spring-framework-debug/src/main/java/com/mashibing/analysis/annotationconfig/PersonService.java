@@ -1,4 +1,4 @@
-package com.mashibing.analysis.service;
+package com.mashibing.analysis.annotationconfig;
 
 import org.springframework.stereotype.Component;
 

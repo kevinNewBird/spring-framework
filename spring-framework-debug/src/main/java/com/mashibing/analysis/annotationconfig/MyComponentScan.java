@@ -1,4 +1,4 @@
-package com.mashibing.analysis.config;
+package com.mashibing.analysis.annotationconfig;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +19,13 @@ public class MyComponentScan {
 	@ComponentScan("com.mashibing.analysis.selftag")
 	@Configuration
 	@Order(90)
-	class InnerClass{
+	class InnerClass {
 
+		@ComponentScan("com.mashibing.analysis.selftag")
+		@Configuration
+		@Order(91)
+		class InnerInnerClass {
+
+		}
 	}
 }

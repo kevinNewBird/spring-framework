@@ -662,7 +662,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			instanceWrapper = this.factoryBeanInstanceCache.remove(beanName);
 		}
 		if (instanceWrapper == null) {
-			// 创建实例包装类: 根据执行bean使用对应的策略,创建新的实例.如:工厂方法,构建函数主动注入,简单初始化
+			// (实例化)创建实例包装类: 根据执行bean使用对应的策略,创建新的实例.如:工厂方法,构建函数主动注入,简单初始化
 			instanceWrapper = createBeanInstance(beanName, mbd, args);
 		}
 		// 从包装类中获取原始bean
@@ -1448,7 +1448,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				return autowireConstructor(beanName, mbd, null, null);
 			}
 			else {
-				// 使用默认构造函数构造
+				// (实例化)使用默认构造函数构造
 				return instantiateBean(beanName, mbd);
 			}
 		}
@@ -1591,6 +1591,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			}
 			// 包装成BeanWrapper
 			BeanWrapper bw = new BeanWrapperImpl(beanInstance);
+			// 注册自定义的属性编辑器到容器中
 			initBeanWrapper(bw);
 			return bw;
 		}

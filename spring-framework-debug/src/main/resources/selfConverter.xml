@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="people" class="com.mashibing.analysis.selfConverter.People" >
+		<property name="student" value="1_kevin"/>
+	</bean>
+	<bean id="studentConverter" class="com.mashibing.analysis.selfConverter.StudentConverter"></bean>
+	<bean id ="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+		<property name="converters">
+			<set>
+				<ref bean="studentConverter"></ref>
+			</set>
+		</property>
+	</bean>
+</beans>

@@ -1,4 +1,4 @@
-package com.mashibing.analysis.pojo;
+package com.mashibing.analysis.factoryBean;
 
 import org.springframework.beans.factory.FactoryBean;
 
@@ -20,5 +20,10 @@ public class PersonFactoryBean implements FactoryBean<Person> {
 	@Override
 	public Class<?> getObjectType() {
 		return Person.class;
+	}
+
+	@Override
+	public boolean isSingleton() {
+		return false;
 	}
 }
