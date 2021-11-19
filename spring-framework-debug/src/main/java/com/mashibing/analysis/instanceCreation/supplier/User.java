@@ -1,4 +1,4 @@
-package com.mashibing.analysis.supplier;
+package com.mashibing.analysis.instanceCreation.supplier;
 
 /**
  * description  User <BR>

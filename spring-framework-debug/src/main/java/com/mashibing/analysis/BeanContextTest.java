@@ -29,7 +29,7 @@ public class BeanContextTest {
 //		System.out.println(instance);
 
 		// 4.look-up  replace
-//		invokeCustomXML("methodOverride.xml");
+//		invokeCustomXML("lookup_methodOverride.xml");
 //		// 获取到的是动态代理对象
 //		FruitPlate fp1 = context.getBean("fruitplate1", FruitPlate.class);
 //		// CglibSubclassingInstantiationStrategy.LookupOverrideMethodInterceptor.intercept()

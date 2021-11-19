@@ -1,4 +1,4 @@
-package com.mashibing.analysis.factoryMethod;
+package com.mashibing.analysis.instanceCreation.factoryMethod;
 
 /**
  * description  AnimalStaticFactory <BR>

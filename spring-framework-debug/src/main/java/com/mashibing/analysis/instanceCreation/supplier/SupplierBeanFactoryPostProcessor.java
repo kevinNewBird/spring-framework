@@ -1,4 +1,4 @@
-package com.mashibing.analysis.supplier;
+package com.mashibing.analysis.instanceCreation.supplier;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanDefinition;

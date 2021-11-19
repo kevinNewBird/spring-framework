@@ -3,19 +3,19 @@
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<!--静态工厂:创建实例对象-->
-	<bean id="dog" class="com.mashibing.analysis.factoryMethod.AnimalStaticFactory"
+	<bean id="dog" class="com.mashibing.analysis.instanceCreation.factoryMethod.AnimalStaticFactory"
 		  factory-method="getAnimal">
 		<!--constructor-arg: 可以为方法指定参数-->
 		<constructor-arg name="name" value="dog"/>
 	</bean>
 
 	<!--实例工厂:创建实例对象-->
-	<bean id="animalInstanceFactory" class="com.mashibing.analysis.factoryMethod.AnimalInstanceFactory"/>
+	<bean id="animalInstanceFactory" class="com.mashibing.analysis.instanceCreation.factoryMethod.AnimalInstanceFactory"/>
 	<!--
 	   factory-bean: 指定使用哪个工厂实例
 	   factory-method: 指定使用哪个工厂实例的方法
 	-->
-	<bean id="cat" class="com.mashibing.analysis.factoryMethod.Animal" factory-bean="animalInstanceFactory"
+	<bean id="cat" class="com.mashibing.analysis.instanceCreation.factoryMethod.Animal" factory-bean="animalInstanceFactory"
 		  factory-method="getAnimal">
 		<constructor-arg name="name" value="cat"/>
 	</bean>

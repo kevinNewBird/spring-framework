@@ -1,6 +1,5 @@
 package com.mashibing.analysis.populateBean;
 
-import com.mashibing.analysis.supplier.User;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**

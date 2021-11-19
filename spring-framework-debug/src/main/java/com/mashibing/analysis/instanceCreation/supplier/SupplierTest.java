@@ -1,5 +1,7 @@
-package com.mashibing.analysis.supplier;
+package com.mashibing.analysis.instanceCreation.supplier;
 
+import com.mashibing.analysis.ContextHelper;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -12,16 +14,14 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class SupplierTest {
 
-	static ClassPathXmlApplicationContext context;
+
 
 
 	public static void main(String[] args) {
-		invokeCustomXML("supplier.xml");
-		User user = context.getBean(User.class);
+		ApplicationContext ac = ContextHelper.invokeCustomXML("supplier.xml");
+		User user = ac.getBean(User.class);
 		System.out.println(user);
 	}
 
-	private static void invokeCustomXML(String oXMLName) {
-		context = new ClassPathXmlApplicationContext(oXMLName);
-	}
+
 }

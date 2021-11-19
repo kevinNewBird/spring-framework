@@ -387,6 +387,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			}
 
 			// 如果不是做类型检查，那么表示要创建bean，此处在集合中做一个记录
+			// 对象的创建: 新生状态 -> 开始创建 -> 创建过程中 -> 创建结束 -> 完整对象.所以有个集合记录状态是非常必要的.
 			if (!typeCheckOnly) {
 				// 为beanName标记为已经创建（或将
 				markBeanAsCreated(beanName);

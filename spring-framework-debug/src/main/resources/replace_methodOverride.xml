@@ -3,6 +3,9 @@
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="user" class="com.mashibing.analysis.instanceCreation.supplier.User"/>
-	<bean class="com.mashibing.analysis.instanceCreation.supplier.SupplierBeanFactoryPostProcessor"/>
+	<bean name="replacer" class="com.mashibing.analysis.instanceCreation.methodOverride.replace.MethodBeanReplace"/>
+	<bean name="testBean" class="com.mashibing.analysis.instanceCreation.methodOverride.replace.MethodBean">
+		<replaced-method name="test" replacer="replacer"/>
+	</bean>
+
 </beans>

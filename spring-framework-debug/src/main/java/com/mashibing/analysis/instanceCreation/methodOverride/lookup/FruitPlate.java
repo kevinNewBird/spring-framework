@@ -1,4 +1,4 @@
-package com.mashibing.analysis.methodOverride.lookup;
+package com.mashibing.analysis.instanceCreation.methodOverride.lookup;
 
 /**
  * description  FruitPlate <BR>

@@ -356,6 +356,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 			// 如果单例对象获取不到
 			if (singletonObject == null) {
 				// 如果当前在destorySingletons中
+				// 对象的创建: 新生状态 -> 开始创建 -> 创建过程中 -> 创建结束 -> 完整对象.所以有个集合记录状态是非常必要的.
 				if (this.singletonsCurrentlyInDestruction) {
 					throw new BeanCreationNotAllowedException(beanName,
 							"Singleton bean creation not allowed while singletons of this factory are in destruction " +
@@ -366,6 +367,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 					logger.debug("Creating shared instance of singleton bean '" + beanName + "'");
 				}
 				// 记录当前对象的加载状态: 创建单例之前的回调,默认实现将单例注册为当前正在创建中(singletonsCurrentlyInCreation)
+				// 对象的创建: 新生状态 -> 开始创建 -> 创建过程中 -> 创建结束 -> 完整对象.所以有个集合记录状态是非常必要的.
 				beforeSingletonCreation(beanName);
 				// 表示生成了新的单例对象的标记，默认为false，表示没有生成新的单例对象
 				boolean newSingleton = false;
@@ -552,6 +554,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	protected void beforeSingletonCreation(String beanName) {
 		// 如果当前在创建检查中的排除bean名列表中不包含该beanName且将beanName添加到当前正在创建的bean名称列表后，出现
 		// beanName已经在当前正在创建的bean名称列表中添加过(singletonsCurrentlyInCreation,三级缓存中使用,getSingleton(beanName)中也有调用)
+		// 对象的创建: 新生状态 -> 开始创建 -> 创建过程中 -> 创建结束 -> 完整对象.所以有个集合记录状态是非常必要的.
 		if (!this.inCreationCheckExclusions.contains(beanName) && !this.singletonsCurrentlyInCreation.add(beanName)) {
 			// 抛出当前正在创建的Bean异常
 			throw new BeanCurrentlyInCreationException(beanName);
