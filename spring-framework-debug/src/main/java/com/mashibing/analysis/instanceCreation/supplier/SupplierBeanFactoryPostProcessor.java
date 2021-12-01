@@ -29,6 +29,6 @@ public class SupplierBeanFactoryPostProcessor implements BeanFactoryPostProcesso
 		BeanDefinition user = beanFactory.getBeanDefinition("user");
 		GenericBeanDefinition gUser = (GenericBeanDefinition) user;
 		gUser.setInstanceSupplier(CreateSupplier::createUser);
-		gUser.setBeanClass(User.class);
+//		gUser.setBeanClass(User.class);
 	}
 }

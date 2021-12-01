@@ -11,11 +11,11 @@ import org.springframework.context.ApplicationContext;
  * company: TRS信息技术有限公司
  * version 1.0
  */
-public class TestPopulate {
+public class TestPopulateV2 {
 
 
 	public static void main(String[] args) {
-		ApplicationContext context = ContextHelper.invokeCustomXML("populateBean.xml");
+		ApplicationContext context = ContextHelper.invokeCustomXML("populateBean2.xml");
 		Human p1 = context.getBean(Human.class);
 		System.out.println(p1);
 	}

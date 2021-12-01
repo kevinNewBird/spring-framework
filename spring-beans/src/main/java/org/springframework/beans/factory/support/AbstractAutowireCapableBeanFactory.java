@@ -1694,7 +1694,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		//如果mdb有PropertyValues就获取其PropertyValues
 		PropertyValues pvs = (mbd.hasPropertyValues() ? mbd.getPropertyValues() : null);
 
-		// 获取 mbd 的 自动装配模式
+		// 获取 mbd 的 自动装配模式, 也就是bean标签上的autowire属性,请见populateBean.xml
 		int resolvedAutowireMode = mbd.getResolvedAutowireMode();
 		// 如果 自动装配模式 为 按名称自动装配bean属性 或者 按类型自动装配bean属性
 		if (resolvedAutowireMode == AUTOWIRE_BY_NAME || resolvedAutowireMode == AUTOWIRE_BY_TYPE) {
@@ -1731,7 +1731,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		if (hasInstAwareBpps) {
 			//如果pvs为null
 			if (pvs == null) {
-				//尝试获取mbd的PropertyValues
+				//尝试获取mbd的PropertyValues(空集合,非null)
 				pvs = mbd.getPropertyValues();
 			}
 			//遍历工厂内的所有后置处理器

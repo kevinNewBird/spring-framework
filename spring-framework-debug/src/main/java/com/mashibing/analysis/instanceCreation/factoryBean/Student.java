@@ -1,4 +1,4 @@
-package com.mashibing.analysis.factoryBean;
+package com.mashibing.analysis.instanceCreation.factoryBean;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;

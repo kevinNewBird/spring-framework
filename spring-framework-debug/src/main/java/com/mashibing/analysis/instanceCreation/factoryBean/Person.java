@@ -1,4 +1,4 @@
-package com.mashibing.analysis.factoryBean;
+package com.mashibing.analysis.instanceCreation.factoryBean;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanNameAware;

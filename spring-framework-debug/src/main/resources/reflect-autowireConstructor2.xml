@@ -4,15 +4,13 @@
 	   xmlns:context="http://www.springframework.org/schema/context"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-	<!--验证org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor-->
-		<bean id="banana1" class="com.mashibing.analysis.instanceCreation.reflection.constructor.args.Banana" scope="prototype">
-			<property name="id" value="1"/>
-			<property name="name" value="无参构造"/>
-		</bean>
 
-	<bean id="banana2" class="com.mashibing.analysis.instanceCreation.reflection.constructor.args.Banana" scope="prototype">
+
+	<!--注解开启后AnnotationConfigUtils注入默认的内部bean, 才会扫描到注解-->
+	<context:component-scan base-package="com.mashibing.analysis.instanceCreation.reflection.constructor"/>
+	<!--验证: org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor#determineCandidateConstructors-->
+	<bean id="apple" class="com.mashibing.analysis.instanceCreation.reflection.constructor.args.Apple" scope="prototype">
 		<constructor-arg value="1"/>
-		<constructor-arg value="有参构造"/>
+		<constructor-arg value="甘肃苹果"/>
 	</bean>
-
 </beans>

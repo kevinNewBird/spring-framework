@@ -1,7 +1,9 @@
-package com.mashibing.analysis.aop.xml.service;
+package com.mashibing.analysis.aop.annotation;
 
-//@Service
-public class MyCalculator /*implements Calculator */ {
+import com.mashibing.analysis.aop.base.Calculator;
+
+
+public class SecondCalculator implements Calculator {
 	public Integer add(Integer i, Integer j) throws NoSuchMethodException {
 		return i + j;
 	}
@@ -21,10 +23,5 @@ public class MyCalculator /*implements Calculator */ {
 	public Integer show(Integer i) {
 		System.out.println("show .....");
 		return i;
-	}
-
-	@Override
-	public String toString() {
-		return "super.toString()";
 	}
 }

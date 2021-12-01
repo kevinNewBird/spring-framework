@@ -3,6 +3,8 @@ package com.mashibing.analysis.populateBean.annotation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import java.util.Map;
+
 /**
  * description  PersonController <BR>
  * <p>
@@ -16,4 +18,7 @@ public class PersonController {
 
 	@Autowired
 	private PersonService personService;
+
+	@Autowired
+	private Map<String,PersonService> serviceMap;
 }

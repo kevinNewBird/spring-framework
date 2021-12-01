@@ -13,7 +13,7 @@ import java.util.*;
  * company: TRS信息技术有限公司
  * version 1.0
  */
-public class PBPerson {
+public class Human {
 
 	private int id;
 
@@ -23,7 +23,9 @@ public class PBPerson {
 
 	private String gender;
 
-	private PBAddress paddress;
+	private Area area;
+
+	private Map<String, Area> areaMap;
 
 	private String[] hobbies;
 
@@ -47,7 +49,7 @@ public class PBPerson {
 	}
 
 //-----------------------constructor-----------------------------
-	public PBPerson(int id, String name, int age, String gender) {
+	public Human(int id, String name, int age, String gender) {
 		this.id = id;
 		this.name = name;
 		this.age = age;
@@ -55,14 +57,14 @@ public class PBPerson {
 		System.out.println("有参构造器");
 	}
 
-	public PBPerson(int id, String name, int age) {
+	public Human(int id, String name, int age) {
 		this.id = id;
 		this.name = name;
 		this.age = age;
 		System.out.println("Age");
 	}
 
-	public PBPerson(int id, String name, String gender) {
+	public Human(int id, String name, String gender) {
 		this.id = id;
 		this.name = name;
 		this.gender = gender;
@@ -70,7 +72,7 @@ public class PBPerson {
 	}
 
 
-	public PBPerson() {
+	public Human() {
 	}
 //-----------------------setter getter-----------------------------
 	public int getId() {
@@ -105,12 +107,20 @@ public class PBPerson {
 		this.gender = gender;
 	}
 
-	public PBAddress getPaddress() {
-		return paddress;
+	public Area getArea() {
+		return area;
 	}
 
-	public void setPaddress(PBAddress paddress) {
-		this.paddress = paddress;
+	public void setArea(Area area) {
+		this.area = area;
+	}
+
+	public Map<String, Area> getAreaMap() {
+		return areaMap;
+	}
+
+	public void setAreaMap(Map<String, Area> areaMap) {
+		this.areaMap = areaMap;
 	}
 
 	public String[] getHobbies() {
@@ -154,15 +164,18 @@ public class PBPerson {
 	}
 
 //-------------------------toString-----------------------
+
+
 	@Override
 	public String toString() {
-		return "PBPerson{" +
+		return "Human{" +
 				"id=" + id +
 				", name='" + name + '\'' +
 				", age=" + age +
 				", gender='" + gender + '\'' +
-				", address=" + paddress +
+				", area=" + area +
 				", hobbies=" + Arrays.toString(hobbies) +
+				", books=" + books +
 				", sets=" + sets +
 				", maps=" + maps +
 				", properties=" + properties +

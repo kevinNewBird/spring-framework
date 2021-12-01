@@ -8,7 +8,7 @@ package com.mashibing.analysis.populateBean;
  * company: TRS信息技术有限公司
  * version 1.0
  */
-public class PBBook {
+public class Book {
 	
 	private String name;
 
@@ -17,10 +17,10 @@ public class PBBook {
 	private double price;
 
 //----------------------------------------constructor-------------------
-	public PBBook() {
+	public Book() {
 	}
 
-	public PBBook(String name, String author, double price) {
+	public Book(String name, String author, double price) {
 		this.name = name;
 		this.author = author;
 		this.price = price;

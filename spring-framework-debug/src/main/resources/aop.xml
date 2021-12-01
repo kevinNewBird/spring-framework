@@ -5,11 +5,11 @@
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
-	<bean id="logUtil" class="com.mashibing.analysis.aop.xml.util.LogUtil"/>
-	<bean id="myCalculator" class="com.mashibing.analysis.aop.xml.service.MyCalculator"/>
+	<bean id="logUtil" class="com.mashibing.analysis.aop.xml.LogUtil"/>
+	<bean id="myCalculator" class="com.mashibing.analysis.aop.xml.MyCalculator"/>
 	<aop:config>
 		<aop:aspect ref="logUtil">
-			<aop:pointcut id="myPoint" expression="execution(Integer com.mashibing.analysis.aop.xml.service.MyCalculator.*(..))"/>
+			<aop:pointcut id="myPoint" expression="execution(Integer com.mashibing.analysis.aop.xml.MyCalculator.*(..))"/>
 			<aop:around method="around" pointcut-ref="myPoint"/>
 			<aop:before method="start" pointcut-ref="myPoint"/>
 			<aop:after method="logFinally" pointcut-ref="myPoint"/>

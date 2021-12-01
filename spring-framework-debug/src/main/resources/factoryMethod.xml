@@ -6,7 +6,8 @@
 	<bean id="dog" class="com.mashibing.analysis.instanceCreation.factoryMethod.AnimalStaticFactory"
 		  factory-method="getAnimal">
 		<!--constructor-arg: 可以为方法指定参数-->
-		<constructor-arg name="name" value="dog"/>
+		<constructor-arg index="0" value="2"/>
+		<constructor-arg index="1" value="dog2"/>
 	</bean>
 
 	<!--实例工厂:创建实例对象-->

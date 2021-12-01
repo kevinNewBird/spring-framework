@@ -8,18 +8,18 @@ package com.mashibing.analysis.populateBean;
  * company: TRS信息技术有限公司
  * version 1.0
  */
-public class PBAddress {
+public class Area {
 
 	private String province;
 	private String city;
 	private String town;
 
 //-----------------------------------------------------constructor--------------------
-	public PBAddress() {
+	public Area() {
 		System.out.println("address被创建了");
 	}
 
-	public PBAddress(String province, String city, String town) {
+	public Area(String province, String city, String town) {
 		this.province = province;
 		this.city = city;
 		this.town = town;

@@ -14,6 +14,7 @@ import java.lang.reflect.Method;
  */
 public class MethodBeanReplace implements MethodReplacer {
 
+	private Object obj2 = new Object();
 
 	/**
 	 * Reimplement the given method.
@@ -25,7 +26,8 @@ public class MethodBeanReplace implements MethodReplacer {
 	 */
 	@Override
 	public Object reimplement(Object obj, Method method, Object[] args) throws Throwable {
-		System.out.println("方法已经被替换");
+		System.out.println("方法已经被替换" + obj2.toString());
+		System.out.println("方法已经被替换2" + new Object().toString());
 		return null;
 	}
 }

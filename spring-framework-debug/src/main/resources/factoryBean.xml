@@ -4,10 +4,10 @@
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!--验证BeanDefinition转换为MergedBeanDefinition的时机-->
-	<bean class="com.mashibing.analysis.factoryBean.Student"/>
+	<bean class="com.mashibing.analysis.instanceCreation.factoryBean.Student"/>
 
 	<!--验证FactoryBean-->
-	<bean id="personFB" class="com.mashibing.analysis.factoryBean.PersonFactoryBean"/>
+	<bean id="personFB" class="com.mashibing.analysis.instanceCreation.factoryBean.PersonFactoryBean"/>
 
 
 </beans>

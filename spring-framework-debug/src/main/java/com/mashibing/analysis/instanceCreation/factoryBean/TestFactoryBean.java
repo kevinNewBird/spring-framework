@@ -1,4 +1,4 @@
-package com.mashibing.analysis.factoryBean;
+package com.mashibing.analysis.instanceCreation.factoryBean;
 
 import com.mashibing.analysis.ContextHelper;
 import org.springframework.context.ApplicationContext;

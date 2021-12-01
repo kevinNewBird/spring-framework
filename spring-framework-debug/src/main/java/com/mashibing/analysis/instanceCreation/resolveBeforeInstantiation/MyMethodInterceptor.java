@@ -1,4 +1,4 @@
-package com.mashibing.analysis.resolveBeforeInstantiation;
+package com.mashibing.analysis.instanceCreation.resolveBeforeInstantiation;
 
 
 import org.springframework.cglib.proxy.MethodInterceptor;

@@ -1,4 +1,4 @@
-package com.mashibing.analysis.aop.xml.util;
+package com.mashibing.analysis.aop.xml;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -10,19 +10,16 @@ import java.util.Arrays;
  * description  LogUtil <BR>
  * <p>
  * author: zhao.song
- * date: created in 8:54  2021/10/29
+ * date: created in 10:30  2021/12/1
  * company: TRS信息技术有限公司
  * version 1.0
  */
 public class LogUtil {
 
-	//    @Pointcut("execution(public Integer com.mashibing.service.MyCalculator.*(Integer,Integer))")
 	public void myPointCut(){}
 
-	//    @Pointcut("execution(* *(..))")
 	public void myPointCut1(){}
 
-	//    @Before(value = "myPointCut()")
 	private int start(JoinPoint joinPoint){
 		//获取方法签名
 		Signature signature = joinPoint.getSignature();
@@ -32,26 +29,22 @@ public class LogUtil {
 		return 100;
 	}
 
-	//    @AfterReturning(value = "myPointCut()",returning = "result")
 	public static void stop(JoinPoint joinPoint,Object result){
 		Signature signature = joinPoint.getSignature();
 		System.out.println("log---"+signature.getName()+"方法执行结束，结果是："+result);
 	}
 
-	//    @AfterThrowing(value = "myPointCut()",throwing = "e")
 	public static void logException(JoinPoint joinPoint,Exception e){
 		Signature signature = joinPoint.getSignature();
 		System.out.println("log---"+signature.getName()+"方法抛出异常："+e.getMessage());
 	}
 
-	//    @After("myPointCut()")
 	public static void logFinally(JoinPoint joinPoint){
 		Signature signature = joinPoint.getSignature();
 		System.out.println("log---"+signature.getName()+"方法执行结束。。。。。over");
 
 	}
 
-	//     @Around("myPointCut()")
 	public Object around(ProceedingJoinPoint pjp) throws Throwable {
 		Signature signature = pjp.getSignature();
 		Object[] args = pjp.getArgs();

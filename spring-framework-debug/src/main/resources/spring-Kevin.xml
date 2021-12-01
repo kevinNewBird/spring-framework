@@ -24,12 +24,12 @@
 	其实xml发展到了今天，id属性的限制也就不存在了
 	3. containsBeanDefinition(beanName)只能判断id，不能判断name；而containsBean(beanName)id与name都可以进行判断
 	-->
-	<bean id="person2" class="com.mashibing.analysis.factoryBean.Person">
+	<bean id="person2" class="com.mashibing.analysis.instanceCreation.factoryBean.Person">
 		<constructor-arg index="0" value="1" type="int"/>
 		<constructor-arg index="1" value="zhangshan" type="java.lang.String"/>
 	</bean>
 
-	<bean id="person" class="com.mashibing.analysis.factoryBean.Person">
+	<bean id="person" class="com.mashibing.analysis.instanceCreation.factoryBean.Person">
 		<!--		<lookup-method></lookup-method>-->
 		<!--		<replaced-method></replaced-method>-->
 		<property name="id" value="1"/>

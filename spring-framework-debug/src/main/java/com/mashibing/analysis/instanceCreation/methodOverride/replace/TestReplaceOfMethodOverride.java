@@ -18,5 +18,7 @@ public class TestReplaceOfMethodOverride {
 		ApplicationContext ac = ContextHelper.invokeCustomXML("replace_methodOverride.xml");
 		MethodBean originMethod = ac.getBean(MethodBean.class);
 		originMethod.test();
+		MethodBean originMethod2 = ac.getBean(MethodBean.class);
+		originMethod2.test();
 	}
 }
