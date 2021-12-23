@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+	<!--数据库配置信息-->
+	<context:property-placeholder location="classpath:dbtxconfig.properties"/>
+	<!--数据库连接-->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+		<property name="username" value="${jdbc.username}"/>
+		<property name="password" value="${jdbc.password}"/>
+		<property name="driverClassName" value="${jdbc.driverClassName}"/>
+		<property name="url" value="${jdbc.url}"/>
+<!--		<property name="testOnBorrow" value="true"/>-->
+	</bean>
+
+	<!--数据库事务管理-->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+
+	<!--数据库模板连接-->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+
+	<!--数据库dao-->
+	<bean id="glassDao" class="com.mashibing.analysis.tx.xml.dao.GlassDao">
+		<property name="jdbcTemplate" ref="jdbcTemplate"/>
+	</bean>
+
+	<!--业务层-->
+	<bean id="glassService" class="com.mashibing.analysis.tx.xml.service.GlassService">
+		<property name="glassDao" ref="glassDao"/>
+	</bean>
+
+	<!--aop相关事务配置-->
+	<aop:config>
+		<aop:pointcut id="txPoint" expression="execution(* com.mashibing.analysis.tx.xml.*.*.*(..))"/>
+		<aop:advisor advice-ref="myAdvice" pointcut-ref="txPoint"/>
+	</aop:config>
+	<tx:advice id="myAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="checkout" propagation="REQUIRED" />
+			<tx:method name="updateStock" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+
+
+</beans>

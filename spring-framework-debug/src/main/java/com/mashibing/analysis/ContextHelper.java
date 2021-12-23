@@ -3,6 +3,7 @@ package com.mashibing.analysis;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.util.Assert;
 
 /**
  * description  ContextHelper <BR>
@@ -33,9 +34,11 @@ public class ContextHelper {
      * @author zhao.song  2021/12/11  21:58
      */
     public static ApplicationContext invokeByAnnotation(Class<?> configurationClass) {
-        AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext();
+       /* AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext();
         ac.register(configurationClass);
         ac.refresh();
-        return ac;
+        return ac;*/
+		Assert.notNull(configurationClass,"注解模式配置类不可为空!");
+		return new AnnotationConfigApplicationContext(configurationClass);
     }
 }

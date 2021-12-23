@@ -2,6 +2,7 @@ package com.mashibing.analysis.aop;
 
 import com.mashibing.analysis.ContextHelper;
 import com.mashibing.analysis.aop.xml.MyCalculator;
+import org.springframework.cglib.core.DebuggingClassWriter;
 import org.springframework.context.ApplicationContext;
 
 /**
@@ -15,6 +16,7 @@ import org.springframework.context.ApplicationContext;
 public class TestAop {
 
 	public static void main(String[] args) throws NoSuchMethodException {
+		System.setProperty(DebuggingClassWriter.DEBUG_LOCATION_PROPERTY, "code");
 		ApplicationContext ac = ContextHelper.invokeCustomXML("aop.xml");
 		MyCalculator calc = ac.getBean(MyCalculator.class);
 		Integer result = calc.add(1, 1);

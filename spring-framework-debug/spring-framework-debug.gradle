@@ -15,8 +15,14 @@ dependencies {
     compile(project(":spring-context"))
     compile(project(":spring-core"))
     compile(project(":spring-expression"))
+    //aop
     compile("org.aspectj:aspectjweaver:1.9.6")
     compile(project(":spring-aop"))
+    //事务
+    compile(project(":spring-jdbc"))
+    compile(project(":spring-tx"))
+    compile("com.alibaba:druid:1.2.4")
+    compile("mysql:mysql-connector-java:5.1.48")
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 }
