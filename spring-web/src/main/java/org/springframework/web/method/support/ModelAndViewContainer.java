@@ -132,16 +132,22 @@ public class ModelAndViewContainer {
 	}
 
 	/**
+	 * 返回要使用的视图，要么是默认的model，要么是传递redirect参数的model
+	 * 根据getDefaultModel方法来做判断
 	 * Return the model to use -- either the "default" or the "redirect" model.
 	 * The default model is used if {@code redirectModelScenario=false} or
 	 * there is no redirect model (i.e. RedirectAttributes was not declared as
 	 * a method argument) and {@code ignoreDefaultModelOnRedirect=false}.
 	 */
 	public ModelMap getModel() {
+		// 1、处理器返回的不是redirect视图
+		// 2、处理器返回的是redirect视图单是redirectModel为空，并且ignoreDefaultModelOnRedirect也是false
 		if (useDefaultModel()) {
 			return this.defaultModel;
 		}
 		else {
+			// 1、处理器返回redirect视图，并且redirectModel不为null，
+			// 2、处理器返回的是redirect视图，并且ignoreDefaultModelOnRedirect也是true
 			if (this.redirectModel == null) {
 				this.redirectModel = new ModelMap();
 			}

@@ -8,7 +8,7 @@
         <property name="suffix" value=".jsp" />
     </bean>
     <bean id = "user" class="com.mashibing.pojo.User">
-        <property name="name" value="zhangsan"></property>
+        <property name="username" value="zhangsan"></property>
         <property name="age" value="12"></property>
     </bean>
 </beans>

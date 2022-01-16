@@ -49,6 +49,7 @@ class DefaultServletHandlerBeanDefinitionParser implements BeanDefinitionParser 
 	public BeanDefinition parse(Element element, ParserContext parserContext) {
 		Object source = parserContext.extractSource(element);
 
+		// 注册DefaultServletHttpRequestHandler   beanDefinition,拦截所有的请求并由自己处理
 		String defaultServletName = element.getAttribute("default-servlet-name");
 		RootBeanDefinition defaultServletHandlerDef = new RootBeanDefinition(DefaultServletHttpRequestHandler.class);
 		defaultServletHandlerDef.setSource(source);
@@ -63,6 +64,7 @@ class DefaultServletHandlerBeanDefinitionParser implements BeanDefinitionParser 
 		Map<String, String> urlMap = new ManagedMap<>();
 		urlMap.put("/**", defaultServletHandlerName);
 
+		// 注册SimpleUrlHandlerMapping   beanDefinition
 		RootBeanDefinition handlerMappingDef = new RootBeanDefinition(SimpleUrlHandlerMapping.class);
 		handlerMappingDef.setSource(source);
 		handlerMappingDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);

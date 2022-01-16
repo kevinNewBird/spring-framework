@@ -134,14 +134,20 @@ public class HandlerExecutionChain {
 	 * that this interceptor has already dealt with the response itself.
 	 */
 	boolean applyPreHandle(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		// 获取拦截器数组
 		HandlerInterceptor[] interceptors = getInterceptors();
 		if (!ObjectUtils.isEmpty(interceptors)) {
+			// 遍历拦截器数组
 			for (int i = 0; i < interceptors.length; i++) {
 				HandlerInterceptor interceptor = interceptors[i];
+				// 前置处理
 				if (!interceptor.preHandle(request, response, this.handler)) {
+					// 已完成处理拦截器
 					triggerAfterCompletion(request, response, null);
+					// 返回false，前置处理失败
 					return false;
 				}
+				// 标记interceptorIndex位置
 				this.interceptorIndex = i;
 			}
 		}
@@ -154,10 +160,13 @@ public class HandlerExecutionChain {
 	void applyPostHandle(HttpServletRequest request, HttpServletResponse response, @Nullable ModelAndView mv)
 			throws Exception {
 
+		//  获得拦截器数组
 		HandlerInterceptor[] interceptors = getInterceptors();
+		// 遍历拦截器数组，倒序执行
 		if (!ObjectUtils.isEmpty(interceptors)) {
 			for (int i = interceptors.length - 1; i >= 0; i--) {
 				HandlerInterceptor interceptor = interceptors[i];
+				// 后置处理
 				interceptor.postHandle(request, response, this.handler, mv);
 			}
 		}
@@ -171,14 +180,18 @@ public class HandlerExecutionChain {
 	void triggerAfterCompletion(HttpServletRequest request, HttpServletResponse response, @Nullable Exception ex)
 			throws Exception {
 
+		// 获得拦截器数组
 		HandlerInterceptor[] interceptors = getInterceptors();
 		if (!ObjectUtils.isEmpty(interceptors)) {
+			// 遍历拦截器数组，倒序
 			for (int i = this.interceptorIndex; i >= 0; i--) {
 				HandlerInterceptor interceptor = interceptors[i];
 				try {
+					// 已完成处理拦截器
 					interceptor.afterCompletion(request, response, this.handler, ex);
 				}
 				catch (Throwable ex2) {
+					// 如果执行失败，仅仅会打印错误日志，不会结束循环
 					logger.error("HandlerInterceptor.afterCompletion threw exception", ex2);
 				}
 			}

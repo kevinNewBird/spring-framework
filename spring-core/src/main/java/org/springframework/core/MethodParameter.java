@@ -162,6 +162,7 @@ public class MethodParameter {
 	MethodParameter(Executable executable, int parameterIndex, @Nullable Class<?> containingClass) {
 		Assert.notNull(executable, "Executable must not be null");
 		this.executable = executable;
+		// 将通过检查后的parameterIndex赋值给parameterIndex
 		this.parameterIndex = validateIndex(executable, parameterIndex);
 		this.nestingLevel = 1;
 		this.containingClass = containingClass;
@@ -464,7 +465,9 @@ public class MethodParameter {
 	 * @see #getDeclaringClass()
 	 */
 	public Class<?> getContainingClass() {
+		// 获取当前包含类
 		Class<?> containingClass = this.containingClass;
+		// 如果containingClass不为null，返回containingClass;否则返回声明该方法的类
 		return (containingClass != null ? containingClass : getDeclaringClass());
 	}
 
@@ -852,10 +855,19 @@ public class MethodParameter {
 				"] does not match any parameter in the declaring executable");
 	}
 
+	/**
+	 * 验证参数索引位置
+	 * @param executable
+	 * @param parameterIndex
+	 * @return
+	 */
 	private static int validateIndex(Executable executable, int parameterIndex) {
+		// 获取方法的参数数量
 		int count = executable.getParameterCount();
+		// 如果parameterIndex不在[-1,count)范围内，抛出IllegalArgumentException
 		Assert.isTrue(parameterIndex >= -1 && parameterIndex < count,
 				() -> "Parameter index needs to be between -1 and " + (count - 1));
+		// 返回通过检查后的parameterIndex
 		return parameterIndex;
 	}
 

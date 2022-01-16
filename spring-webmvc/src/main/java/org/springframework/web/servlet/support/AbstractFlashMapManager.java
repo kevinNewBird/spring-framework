@@ -92,13 +92,18 @@ public abstract class AbstractFlashMapManager implements FlashMapManager {
 	@Override
 	@Nullable
 	public final FlashMap retrieveAndUpdate(HttpServletRequest request, HttpServletResponse response) {
+		// retrieveFlashMaps子类实现
+		//  从 session 中获取 FLASH_MAPS_SESSION_ATTRIBUTE = SessionFlashMapManager.class.getName() + ".FLASH_MAPS";
 		List<FlashMap> allFlashMaps = retrieveFlashMaps(request);
 		if (CollectionUtils.isEmpty(allFlashMaps)) {
 			return null;
 		}
 
+		// 获取已经过期的FlashMap进行移除
 		List<FlashMap> mapsToRemove = getExpiredFlashMaps(allFlashMaps);
+		// 获取和当前请求匹配的FlashMap,目标url匹配，目标参数匹配
 		FlashMap match = getMatchingFlashMap(allFlashMaps, request);
+		// 匹配上之后，传递参数的责任完成，加入待移除队列
 		if (match != null) {
 			mapsToRemove.add(match);
 		}
@@ -106,10 +111,14 @@ public abstract class AbstractFlashMapManager implements FlashMapManager {
 		if (!mapsToRemove.isEmpty()) {
 			Object mutex = getFlashMapsMutex(request);
 			if (mutex != null) {
+				// 加锁
 				synchronized (mutex) {
+					// retrieveFlashMaps子类实现
 					allFlashMaps = retrieveFlashMaps(request);
 					if (allFlashMaps != null) {
+						// 移除后，更新sessino
 						allFlashMaps.removeAll(mapsToRemove);
+						// 子类实现
 						updateFlashMaps(allFlashMaps, request, response);
 					}
 				}

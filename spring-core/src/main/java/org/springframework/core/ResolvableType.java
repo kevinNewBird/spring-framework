@@ -162,6 +162,7 @@ public class ResolvableType implements Serializable {
 		this.variableResolver = variableResolver;
 		this.componentType = null;
 		this.hash = hash;
+		// 将type解析成Class赋值给resolved
 		this.resolved = resolveClass();
 	}
 
@@ -1218,6 +1219,8 @@ public class ResolvableType implements Serializable {
 	 */
 	public static ResolvableType forMethodReturnType(Method method) {
 		Assert.notNull(method, "Method must not be null");
+		// 使用嵌套级别1为给定方法创建一个新的MethodParameter,parameterIndex为-1表示方法的返回类型
+		// 再返回methodParameter的ResolvableType对象
 		return forMethodParameter(new MethodParameter(method, -1));
 	}
 
@@ -1232,7 +1235,9 @@ public class ResolvableType implements Serializable {
 	 */
 	public static ResolvableType forMethodReturnType(Method method, Class<?> implementationClass) {
 		Assert.notNull(method, "Method must not be null");
+		// 使用嵌套级别1为method创建一个新的MethodParameter对象,parameterIndex为-1表示方法的返回类型
 		MethodParameter methodParameter = new MethodParameter(method, -1, implementationClass);
+		// 返回methodParameter的ResolvableType对象
 		return forMethodParameter(methodParameter);
 	}
 
@@ -1306,6 +1311,8 @@ public class ResolvableType implements Serializable {
 	 */
 	public static ResolvableType forMethodParameter(MethodParameter methodParameter, @Nullable Type targetType) {
 		Assert.notNull(methodParameter, "MethodParameter must not be null");
+		// 在methodParameter的嵌套级别为methodParameter返回一个ResolvableType对象
+		// ,覆盖目标类类型以使用targetType进行解析
 		return forMethodParameter(methodParameter, targetType, methodParameter.getNestingLevel());
 	}
 
@@ -1323,7 +1330,18 @@ public class ResolvableType implements Serializable {
 	static ResolvableType forMethodParameter(
 			MethodParameter methodParameter, @Nullable Type targetType, int nestingLevel) {
 
+		// 获取构造表示methodParameterr的包含类（默认情况下是声明method的类)的ResolvableType对象,
+		// 将ResolvableType对象作为methodParameter的声明类的ResolvableType对象
 		ResolvableType owner = forType(methodParameter.getContainingClass()).as(methodParameter.getDeclaringClass());
+
+		// MethodParameterTypeProvider:从MethodParameter中获得的类型的SerializableTypeWrapper.TypeProvider
+		// owner.asVariableResolver:将owner修改为DefaultVariableResolver,因为每个ResolvableType对象都具有VariableResolver的能力
+		//                         ，通过DefaultVariableResolver调用
+		// FieldTypeProvider:从Field中获取的类型的SerializableTypeWrapper.TypeProvider
+		// 返回由给定ResolvableType.VariableResolver支持的指定Type的ResolvableType
+		// getNested:返回methodParameter的嵌套等级的ResolvableType对象,methodParameter.typeIndexesPerLevel:从整数嵌套等级到整数类
+		// 型索引的映射.如 key=1，value=2,表示第 1级的第2个索引位置的泛型
+		// 返回由DefaultVariableResolver支持的MethodParameterTypeProvider对象的type属性的ResolvableType对象
 		return forType(targetType, new MethodParameterTypeProvider(methodParameter), owner.asVariableResolver()).
 				getNested(nestingLevel, methodParameter.typeIndexesPerLevel);
 	}
@@ -1402,30 +1420,48 @@ public class ResolvableType implements Serializable {
 	static ResolvableType forType(
 			@Nullable Type type, @Nullable TypeProvider typeProvider, @Nullable VariableResolver variableResolver) {
 
+		// 如果type为null且typeProvider不为null
 		if (type == null && typeProvider != null) {
+			// 获取由typeProvider支持的序列化Type(代理对象)
 			type = SerializableTypeWrapper.forTypeProvider(typeProvider);
 		}
+		// 如果type为null
 		if (type == null) {
+			// 返回NONE，表示没有可用的值
 			return NONE;
 		}
 
 		// For simple Class references, build the wrapper right away -
 		// no expensive resolution necessary, so not worth caching...
+		// 对应简单的Class引用，立即构建包装器 - 不需要昂贵的解析，因此不知道缓存
+		// 如果type是Class的子类或本身
 		if (type instanceof Class) {
+			// 创建一个新的ResolvableType用于未缓存目标,其具有前期解析方案，但是以懒汉式形式计算哈希值
 			return new ResolvableType(type, typeProvider, variableResolver, (ResolvableType) null);
 		}
 
 		// Purge empty entries on access since we don't have a clean-up thread or the like.
+		// 由于我们没有清理线程等，因此清除访问时的空entries
+		// purgeUnreferencedEntries:删除所有已被垃圾回收且不再被引用的条目。在正常情况下，随着项目从映射中添加或删除，
+		// 垃圾收集条目将自动清除。此方法可用于强制清除，当频繁读取Map当更新批量较低时
 		cache.purgeUnreferencedEntries();
 
 		// Check the cache - we may have a ResolvableType which has been resolved before...
+		// 检查缓存-我们可能有一个ResolvableType，它已经在...之前解析了
+		// 创建新的ResolvableType以用于缓存密钥，无需预先解决
 		ResolvableType resultType = new ResolvableType(type, typeProvider, variableResolver);
+		// 从缓存中获取resultType对应的ResolvableType对象
 		ResolvableType cachedType = cache.get(resultType);
+		// 如果cacheTyoe为null，表示缓存中没有
 		if (cachedType == null) {
+			// 重新创建一个ResolvableType对象作为cacheType
 			cachedType = new ResolvableType(type, typeProvider, variableResolver, resultType.hash);
+			// 将cachedType添加到cache中
 			cache.put(cachedType, cachedType);
 		}
+		// 设置resultType的已解析类为cachedType的已解析类
 		resultType.resolved = cachedType.resolved;
+		// type和variableResolver的ResolvableType对象
 		return resultType;
 	}
 

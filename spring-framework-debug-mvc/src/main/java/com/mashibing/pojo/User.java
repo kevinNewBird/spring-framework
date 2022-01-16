@@ -1,20 +1,34 @@
 package com.mashibing.pojo;
 
+/**
+ * description  User <BR>
+ * <p>
+ * author: zhao.song
+ * date: created in 9:55  2021/12/27
+ * company: TRS信息技术有限公司
+ * version 1.0
+ */
 public class User {
     private Integer id;
-    private String name;
+    private String username;
     private Integer age;
     private String gender;
 
     public User() {
     }
 
-    public User(Integer id, String name, Integer age, String gender) {
+    public User(String username, Integer age) {
+		this.username = username;
+		this.age = age;
+    }
+
+    public User(Integer id, String username, Integer age, String gender) {
         this.id = id;
-        this.name = name;
+        this.username = username;
         this.age = age;
         this.gender = gender;
     }
+
 
     public Integer getId() {
         return id;
@@ -24,12 +38,12 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Integer getAge() {
@@ -52,7 +66,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", name='" + username + '\'' +
                 ", age=" + age +
                 ", gender='" + gender + '\'' +
                 '}';

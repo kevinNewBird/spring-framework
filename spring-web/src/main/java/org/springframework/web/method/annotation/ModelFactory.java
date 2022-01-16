@@ -101,10 +101,13 @@ public final class ModelFactory {
 	public void initModel(NativeWebRequest request, ModelAndViewContainer container, HandlerMethod handlerMethod)
 			throws Exception {
 
+		// 从SessionAttributes中取出保存的参数，并合并到MavContainer中
 		Map<String, ?> sessionAttributes = this.sessionAttributesHandler.retrieveAttributes(request);
 		container.mergeAttributes(sessionAttributes);
+		// 执行注释了@ModelAttribute的方法并将结果设置到Model中
 		invokeModelAttributeMethods(request, container);
 
+		// 遍历既注释了@ModelAttribute又在@SessionAttributes注释中的参数
 		for (String name : findSessionAttributeArguments(handlerMethod)) {
 			if (!container.containsAttribute(name)) {
 				Object value = this.sessionAttributesHandler.retrieveAttribute(request, name);
@@ -124,9 +127,12 @@ public final class ModelFactory {
 			throws Exception {
 
 		while (!this.modelMethods.isEmpty()) {
+			// 获取注释了@ModelAttribute的方法
 			InvocableHandlerMethod modelMethod = getNextModelMethod(container).getHandlerMethod();
+			// 获取注释了@ModelAttribute中设置的value作为参数名
 			ModelAttribute ann = modelMethod.getMethodAnnotation(ModelAttribute.class);
 			Assert.state(ann != null, "No ModelAttribute annotation");
+			// 如果参数名已经在mavContainer中则跳过
 			if (container.containsAttribute(ann.name())) {
 				if (!ann.binding()) {
 					container.setBindingDisabled(ann.name());
@@ -134,12 +140,17 @@ public final class ModelFactory {
 				continue;
 			}
 
+			// container不包含参数名，执行方法
 			Object returnValue = modelMethod.invokeForRequest(request, container);
+			// 判断返回值是否是void类型，如果是void类型，方法自己将参数设置到model中，不处理
+			// 如果不是void，使用getNameForReturnValue获取参数名，
 			if (!modelMethod.isVoid()){
+				// 使用getNameForReturnValue获取参数名
 				String returnValueName = getNameForReturnValue(returnValue, modelMethod.getReturnType());
 				if (!ann.binding()) {
 					container.setBindingDisabled(returnValueName);
 				}
+				// 如果不存在container，添加进去
 				if (!container.containsAttribute(returnValueName)) {
 					container.addAttribute(returnValueName, returnValue);
 				}
@@ -184,13 +195,18 @@ public final class ModelFactory {
 	 * @throws Exception if creating BindingResult attributes fails
 	 */
 	public void updateModel(NativeWebRequest request, ModelAndViewContainer container) throws Exception {
+		// 获取defaultModel
 		ModelMap defaultModel = container.getDefaultModel();
+		// 对SessionAttributes进行设置，如果处理器里调用了setComplete则
+		// 将SessionAttribute清空，否则将defaultModel中的参数设置到SessionAttributes中
 		if (container.getSessionStatus().isComplete()){
 			this.sessionAttributesHandler.cleanupAttributes(request);
 		}
+		// 将mavContainer的defaultModel中的参数设置到SessionAttributes
 		else {
 			this.sessionAttributesHandler.storeAttributes(request, defaultModel);
 		}
+		// 判断请求是否已经处理完或者是redirect类型的返回值，其实就是判断是否需要进行页面的渲染操作
 		if (!container.isRequestHandled() && container.getModel() == defaultModel) {
 			updateBindingResult(request, defaultModel);
 		}
@@ -203,10 +219,16 @@ public final class ModelFactory {
 		List<String> keyNames = new ArrayList<>(model.keySet());
 		for (String name : keyNames) {
 			Object value = model.get(name);
+			// 遍历每一个Model中保存的参数，判断是否需要添加BindingResult，如果需要则使用
+			// WebDataBinder获取BindingResult并添加到Model，在添加前检查Model中是否已
+			// 经存在，如果已经存在就不添加了
 			if (value != null && isBindingCandidate(name, value)) {
 				String bindingResultKey = BindingResult.MODEL_KEY_PREFIX + name;
+				// 如果model中不存在bindingResult
 				if (!model.containsAttribute(bindingResultKey)) {
+					// 通过dataBinderFactory创建webDataBinder
 					WebDataBinder dataBinder = this.dataBinderFactory.createBinder(request, value, name);
+					// 添加到model
 					model.put(bindingResultKey, dataBinder.getBindingResult());
 				}
 			}
@@ -257,11 +279,15 @@ public final class ModelFactory {
 	 * @return the derived name (never {@code null} or empty String)
 	 */
 	public static String getNameForReturnValue(@Nullable Object returnValue, MethodParameter returnType) {
+		// 获取返回值的@ModelAttribute注解，也就是方法的@ModelAttribute注解，如果设置了value则直接将其作为参数名返回，
+		// 否则使用Convertions的静态方法getVariableNameForReturnType根据方法、返回值类型和返回值获取参数名
 		ModelAttribute ann = returnType.getMethodAnnotation(ModelAttribute.class);
+		// 如果设置了value则直接将其作为参数名返回
 		if (ann != null && StringUtils.hasText(ann.value())) {
 			return ann.value();
 		}
 		else {
+			// 否则使用Conventions的静态方法getVariableNameForReturnType根据方法、返回值类型和返回值获取参数名
 			Method method = returnType.getMethod();
 			Assert.state(method != null, "No handler method");
 			Class<?> containingClass = returnType.getContainingClass();

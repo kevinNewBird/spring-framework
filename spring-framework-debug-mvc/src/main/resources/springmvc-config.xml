@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	<!--    <bean id="simpleUrlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">-->
+	<!--        <property name="mappings">-->
+	<!--            <props>-->
+	<!--                <prop key="/userlist">userController</prop>-->
+	<!--            </props>-->
+	<!--        </property>-->
+	<!--    </bean>-->
+
+	<!--    <bean id="userController" class="com.mashibing.controller.HelloController2" />-->
+
+	<!--    <context:component-scan base-package="com.mashibing"></context:component-scan>-->
+	<!--    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
+	<!--        <property name="prefix" value="/WEB-INF/jsp/" />-->
+	<!--        <property name="suffix" value=".jsp" />-->
+	<!--    </bean>-->
+	<!--    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">-->
+	<!--        <property name="maxUploadSize" value="17367648787"></property>-->
+	<!--        <property name="defaultEncoding" value="UTF-8"></property>-->
+	<!--    </bean>-->
+	<!--    <bean name="/test01" class="com.mashibing.controller.testController.Test01"></bean>-->
+	<!--    <bean id="/test02" class="com.mashibing.controller.testController.Test02"></bean>-->
+
+	<!--    <mvc:default-servlet-handler></mvc:default-servlet-handler>-->
+	<!--    <mvc:annotation-driven/>-->
+	<!--    <mvc:interceptors>-->
+	<!--        &lt;!&ndash;配置的拦截器可以对具体的请求做限制，不一定所有的请求都要经过此拦截器，按照需求来指定即可&ndash;&gt;-->
+	<!--&lt;!&ndash;        <mvc:interceptor>&ndash;&gt;-->
+	<!--&lt;!&ndash;            <mvc:mapping path="/test01"/>&ndash;&gt;-->
+	<!--&lt;!&ndash;            <bean class="com.mashibing.interceptor.HandlerMappingInterceptor"></bean>&ndash;&gt;-->
+	<!--&lt;!&ndash;        </mvc:interceptor>&ndash;&gt;-->
+	<!--        <bean class="com.mashibing.interceptor.HandlerMappingInterceptor"/>-->
+	<!--    </mvc:interceptors>-->
+
+	<context:component-scan base-package="com.mashibing"/>
+	<!--如果将DispatcherServlet请求映射配置为"/"，则Spring MVC将捕获Web容器所有的请求
+	，包括静态资源的请求，Spring MVC会将它们当成一个普通请求处理，因此找不到对应处理器将导致错误
+	为了解决这个问题,Spring团队很看重静态资源处理这项任务，先调整web.xml中的DispatcherServlet的配置
+	，使其可以捕获所有的请求,即url-pattern设置为/,然后是堪称经典的两种解决方案:
+	1.采用<mvc:default-servlet-handler />,对进入DispatcherServlet的URL进行筛查，如果发现是静态资源
+	   的请求，就将该请求转由Web应用服务器默认的Servlet处理，如果不是静态资源的请求，才由DispatcherServlet
+	   继续处理;
+	2.采用<mvc:resources />,由Spring MVC框架自己处理静态资源，并添加一些有用的附加值功能.
+	  <mvc:resources />允许静态资源放在任何地方，如WEB-INF目录下、类路径下等，你甚至可以将JavaScript等
+	  静态文件打到JAR包中。通过location属性指定静态资源的位置，由于location属性是Resources类型，因此可以
+	  使用诸如"classpath:"等的资源前缀指定资源位置。传统Web容器的静态资源只能放在Web容器的根路径下，
+	  <mvc:resources />完全打破了这个限制。
+	  https://www.cnblogs.com/dflmg/p/6393416.html
+	-->
+	<mvc:default-servlet-handler/>
+
+	<!--
+	默认会帮我们注册默认处理请求，参数和返回值的类，其中最主要的两个类：RequestMappingHandlerMapping
+	和 RequestMappingHandlerAdapter ，分别为HandlerMapping的实现类和HttpRequestHandler的实现
+	1.HandlerMapping的实现类的作用:
+	   实现类RequestMappingHandlerMapping，它会处理@RequestMapping 注解，并将其注册到请求映射表中。
+	2.HandlerAdapter的实现类的作用:
+	   实现类RequestMappingHandlerAdapter，则是处理请求的适配器，确定调用哪个类的哪个方法，并且构造方法参数，返回值。
+	-->
+	<mvc:annotation-driven/>
+
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="suffix" value=".jsp"></property>
+		<property name="prefix" value="/WEB-INF/jsp/"></property>
+	</bean>
+
+	<!--开启上传, id为固定写法,DispatcherServlet#initMultipartResolver-->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!--10M-->
+		<property name="maxUploadSize" value="10485760"/>
+	</bean>
+
+	<!--    <bean class="com.mashibing.controller.exception.MyExceptionHandlerExceptionResolver">-->
+	<!--        <property name="order" value="-1"></property>-->
+	<!--    </bean>-->
+
+</beans>

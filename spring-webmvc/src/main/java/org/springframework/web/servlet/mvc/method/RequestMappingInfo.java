@@ -218,6 +218,8 @@ public final class RequestMappingInfo implements RequestCondition<RequestMapping
 	@Override
 	@Nullable
 	public RequestMappingInfo getMatchingCondition(HttpServletRequest request) {
+		// 匹配 methodsCondition、paramsCondition、headersCondition、consumesCondition、producesCondition
+		// 如果任一为空，则返回 null ，表示匹配失败
 		RequestMethodsRequestCondition methods = this.methodsCondition.getMatchingCondition(request);
 		if (methods == null) {
 			return null;
@@ -247,6 +249,13 @@ public final class RequestMappingInfo implements RequestCondition<RequestMapping
 			return null;
 		}
 
+		/*
+		 * 创建匹配的 RequestMappingInfo 对象
+		 * 为什么要创建 RequestMappingInfo 对象呢？
+		 *
+		 * 因为当前 RequestMappingInfo 对象，一个 methodsCondition 可以配置 GET、POST、DELETE 等等条件，
+		 * 但是实际就匹配一个请求类型，此时 methods 只代表其匹配的那个。
+		 */
 		return new RequestMappingInfo(this.name, patterns,
 				methods, params, headers, consumes, produces, custom.getCondition());
 	}

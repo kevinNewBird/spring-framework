@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>单文件上传</title>
+</head>
+<body>
+<span style="color:red">单文件文件上传</span>
+<form method="POST" enctype="multipart/form-data" action="upload/file">
+    File to upload: <input type="file" name="upfile"><br/>
+    Notes about the file: <input type="text" name="note"><br/>
+    <br/>
+    <input type="submit" value="Press"> to upload the file!
+</form>
+
+<br/>
+<br/>
+<span style="color:red">多文件上传</span>
+<form method="POST" enctype="multipart/form-data" action="upload/files">
+    File to upload: <input type="file" name="upfiles"><br/>
+    File to upload: <input type="file" name="upfiles"><br/>
+    <br/>
+    <input type="submit" value="Press"> to upload the file!
+</form>
+</body>
+</html>

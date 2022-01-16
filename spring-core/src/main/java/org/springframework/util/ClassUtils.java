@@ -970,6 +970,8 @@ public abstract class ClassUtils {
 	}
 
 	/**
+	 * 以没有大写的JavaBeans属性格式返回java类的短字符串名.如果是内部类,则去除外部类名称
+	 *
 	 * Return the short string name of a Java class in uncapitalized JavaBeans
 	 * property format. Strips the outer class name in case of an inner class.
 	 * @param clazz the class
@@ -977,9 +979,16 @@ public abstract class ClassUtils {
 	 * @see java.beans.Introspector#decapitalize(String)
 	 */
 	public static String getShortNameAsProperty(Class<?> clazz) {
+		// 获取没有合格包名的类名
 		String shortName = getShortName(clazz);
+		// 获取shorName的最后一个'.'的索引位置
 		int dotIndex = shortName.lastIndexOf(PACKAGE_SEPARATOR);
+		// 如果找到'.'的索引位置，就截取出'.'后面的字符串,重新赋值给shortName
 		shortName = (dotIndex != -1 ? shortName.substring(dotIndex + 1) : shortName);
+		// Introspector.decapitalize:获得一个字符串并将它转换成普通 java 变量名称大写形式的实用工具方法。
+		// 这通常意味着将首字符从大写转换成小写，但在（不平常的）特殊情况下，当有多个字符且第一个和第二个字符
+		// 都是大写字符时，不执行任何操作。因此 "STRINGS" 变成 "STRINGS"，"STing" 变成 "STing"，"Sting"
+		// 变成 "sting",但 "string" 仍然是 "string"。
 		return Introspector.decapitalize(shortName);
 	}
 
