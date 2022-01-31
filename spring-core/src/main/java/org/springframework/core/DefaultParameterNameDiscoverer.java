@@ -39,11 +39,16 @@ package org.springframework.core;
 public class DefaultParameterNameDiscoverer extends PrioritizedParameterNameDiscoverer {
 
 	public DefaultParameterNameDiscoverer() {
+		// 如果项目不是运行在GraalVm环境里
 		if (!GraalDetector.inImageCode()) {
+			// 且存在kotlin反射
 			if (KotlinDetector.isKotlinReflectPresent()) {
+				// 添加Kotlin的反射工具内省参数名发现器
 				addDiscoverer(new KotlinReflectionParameterNameDiscoverer());
 			}
+			// 添加使用jdk8 的反射工具内省参数名 （基于 ‘-parameters’ 编译器标记）的参数名发现器
 			addDiscoverer(new StandardReflectionParameterNameDiscoverer());
+			// 添加基于ASM库对Class 文件的解析获取LocalVariableTable信息来发现参数名的参数名发现器
 			addDiscoverer(new LocalVariableTableParameterNameDiscoverer());
 		}
 	}

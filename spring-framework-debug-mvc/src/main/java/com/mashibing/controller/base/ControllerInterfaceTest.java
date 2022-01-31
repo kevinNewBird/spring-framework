@@ -1,4 +1,4 @@
-package com.mashibing.controller;
+package com.mashibing.controller.base;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;

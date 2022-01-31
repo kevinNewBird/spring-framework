@@ -401,11 +401,14 @@ public abstract class AbstractMessageConverterMethodProcessor extends AbstractMe
 	protected List<MediaType> getProducibleMediaTypes(
 			HttpServletRequest request, Class<?> valueClass, @Nullable Type targetType) {
 
+		// 先从请求 PRODUCIBLE_MEDIA_TYPES_ATTRIBUTE 属性中获取。该属性的来源是 @RequestMapping(producer=xxx)
 		Set<MediaType> mediaTypes =
 				(Set<MediaType>) request.getAttribute(HandlerMapping.PRODUCIBLE_MEDIA_TYPES_ATTRIBUTE);
+		// 如果非空，使用该属性
 		if (!CollectionUtils.isEmpty(mediaTypes)) {
 			return new ArrayList<>(mediaTypes);
 		}
+		// allSupportedMediaTypes非空，遍历HttpMessageConverter数组，进行类型匹配
 		else if (!this.allSupportedMediaTypes.isEmpty()) {
 			List<MediaType> result = new ArrayList<>();
 			for (HttpMessageConverter<?> converter : this.messageConverters) {
@@ -420,6 +423,7 @@ public abstract class AbstractMessageConverterMethodProcessor extends AbstractMe
 			}
 			return result;
 		}
+		// 其它，则放回 MediaType.ALL
 		else {
 			return Collections.singletonList(MediaType.ALL);
 		}

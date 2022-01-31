@@ -100,6 +100,12 @@ public final class ModelFactory {
 	 */
 	public void initModel(NativeWebRequest request, ModelAndViewContainer container, HandlerMethod handlerMethod)
 			throws Exception {
+		/**
+		 * 步骤(当前并不是请求中的方法的执行)：
+		 *   1.获取@SessionAttribute设置的属性值并且设置到mavContainer
+		 *   2.获取@ModelAttribute修饰的方法中包含的属性值，然后设置到mavContainer
+		 *   3.判断方法的参数被@ModelAttribute修饰同时在@SessionAttributes中时，添加到mavContainer
+		 */
 
 		// 从SessionAttributes中取出保存的参数，并合并到MavContainer中
 		Map<String, ?> sessionAttributes = this.sessionAttributesHandler.retrieveAttributes(request);

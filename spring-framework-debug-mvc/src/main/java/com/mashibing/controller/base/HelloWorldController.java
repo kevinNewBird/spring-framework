@@ -1,4 +1,4 @@
-package com.mashibing.controller;
+package com.mashibing.controller.base;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

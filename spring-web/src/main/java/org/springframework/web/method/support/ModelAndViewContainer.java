@@ -70,6 +70,7 @@ public class ModelAndViewContainer {
 
 	private final SessionStatus sessionStatus = new SimpleSessionStatus();
 
+	// 请求是否处理完成的标志：false成功调用；true未成功调用
 	private boolean requestHandled = false;
 
 

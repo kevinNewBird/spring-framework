@@ -1,6 +1,6 @@
 package com.mashibing.controller;
 
-import com.mashibing.pojo.User;
+import com.mashibing.pojo.Monkey;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,9 +29,9 @@ public class UserModelController {
 	 */
 	@RequestMapping("/userlist.do")
 	public String showUserList(Model model) {
-		ArrayList<User> list = new ArrayList<>();
-		User u1 = new User("张三", 12);
-		User u2 = new User("李四", 62);
+		ArrayList<Monkey> list = new ArrayList<>();
+		Monkey u1 = new Monkey("张三", 12);
+		Monkey u2 = new Monkey("李四", 62);
 
 		Collections.addAll(list, u1, u2);
 		model.addAttribute("users", list);
@@ -51,9 +51,9 @@ public class UserModelController {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("userlist");//设置访问的页面
 
-		ArrayList<User> list = new ArrayList<>();
-		User u1 = new User("张三2", 122);
-		User u2 = new User("李四2", 622);
+		ArrayList<Monkey> list = new ArrayList<>();
+		Monkey u1 = new Monkey("张三2", 122);
+		Monkey u2 = new Monkey("李四2", 622);
 
 		Collections.addAll(list, u1, u2);
 		mav.addObject("users", list);
